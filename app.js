@@ -11,7 +11,28 @@ var mongoose   = require('mongoose');
 // Configure Express APp
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended : true }));
-app.user(bodyParser.json());
+app.use(bodyParser.json());
+app.use('/static', express.static('public'));
+
+// Router Instanciation
+var router = express.Router();
 
 // Default Port
 var PORT = ( process.env.PORT || 1337 );
+
+// Default Route ( Render my Single Page App )
+app.get('*', function(request, response){
+    response.sendFile(__dirname + '/views/index.html');
+});
+
+// Default Route API
+router.get('/', function(request, response) {
+  res.send('API 1.0');
+});
+
+// Router Definition
+app.use('/api', router);
+
+app.listen(PORT, function(err) {
+  console.log('[+] Listenning on http://localhost:' + PORT);
+});
