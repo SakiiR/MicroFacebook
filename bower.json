@@ -1,0 +1,17 @@
+{
+  "name": "MicroFB",
+  "authors": [
+    "Erwan Dupard <erwan.dupard@epitech.eu>"
+  ],
+  "description": "Little Social Network",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
