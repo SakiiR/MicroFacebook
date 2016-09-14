@@ -21,17 +21,17 @@ var router = express.Router();
 var PORT = ( process.env.PORT || 1337 );
 
 // Default Route ( Render my Single Page App )
-app.get('*', function(request, response){
+router.get('*', function(request, response){
     response.sendFile(__dirname + '/views/index.html');
 });
 
 // Default Route API
 router.get('/', function(request, response) {
-  res.send('API 1.0');
+  response.send('API 1.0');
 });
 
 // Router Definition
-app.use('/api', router);
+app.use('/', router);
 
 app.listen(PORT, function(err) {
   console.log('[+] Listenning on http://localhost:' + PORT);
