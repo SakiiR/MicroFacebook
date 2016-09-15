@@ -18,6 +18,7 @@
     "angular": "^1.5.8",
     "bootstrap": "^3.3.7",
     "angular-route": "^1.5.8",
-    "materialize": "^0.97.7"
+    "materialize": "^0.97.7",
+    "angular-local-storage": "^0.5.0"
   }
 }

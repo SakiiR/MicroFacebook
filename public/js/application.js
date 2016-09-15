@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('microFbApp', ['ngRoute']);
+var app = angular.module('microFbApp', ['ngRoute', 'LocalStorageModule']);
 
 app.config(function($routeProvider) {
   $routeProvider.when('/login', {

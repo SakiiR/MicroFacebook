@@ -16,8 +16,13 @@
             <li ng-show="user.token === undefined"><a href="/#/register">Register</a></li>
             <li ng-show="user.token !== undefined"><a href="/#/profile">Profile</a></li>
             <li ng-show="user.token !== undefined"><a href="/#/members">Members</a></li>
+            <li ng-show="user.token !== undefined" ng-click="Disconnect()"><a href="#">Disconnect</a></li>
           </ul>
         </div>
+        <div class="progress" ng-show="loading">
+          <div class="indeterminate"></div>
+        </div>
+
       </nav>
       <div ng-view></div>
     </div>
@@ -30,6 +35,7 @@
     <!--  Angular Javascript Files   -->
     <script src="./static/vendors/angular/angular.min.js"></script>
     <script src="./static/vendors/angular-route/angular-route.min.js"></script>
+    <script src="./static/vendors/angular-local-storage/dist/angular-local-storage.min.js"></script>
 
     <!--  Application file   -->
     <script src="./static/js/application.js"></script>
@@ -39,6 +45,9 @@
     <script src="./static/js/controllers/LoginController.js"></script>
     <script src="./static/js/controllers/RegisterController.js"></script>
     <script src="./static/js/controllers/HomeController.js"></script>
+
+    <!--  My Services   -->
+    <script src="./static/js/services/user.js"></script>
 
   </body>
 </html>
