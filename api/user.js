@@ -63,10 +63,9 @@ router.post('/auth', function(request, response) {
     });
 });
 
-// Route('/user/publicinfos/:id')
-router.get('/:id', function(request, response) {
+// Route('/user/:id')
+router.get('/:id', passport.authenticate('jwt', { session : false }), function(request, response) {
   var user_id = request.params.id
-
   User.findOne({ _id : user_id }, function(err, user) {
     console.log(err);
     if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
