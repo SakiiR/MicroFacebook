@@ -67,10 +67,10 @@ router.post('/auth', function(request, response) {
 router.get('/:id', passport.authenticate('jwt', { session : false }), function(request, response) {
   var user_id = request.params.id
   User.findOne({ _id : user_id }, function(err, user) {
-    console.log(err);
     if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
     if (!user) return response.json({success : false, message : 'Failed to find user with id ' + user_id});
-    console.log(user);
+    user.password = undefined;
+    response.json({success : true, message : 'Success !', user : user});
   });
 });
 
