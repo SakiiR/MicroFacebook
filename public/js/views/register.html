@@ -1,0 +1,40 @@
+<section class="login-container">
+  <h4>Register Page</h4>
+  <div class="login-form-container">
+      <div class="row">
+        <form class="col s12" ng-submit="submitForm()">
+         <div class="row">
+           <div class="input-field col s12">
+             <input id="firstname" type="text" class="validate" ng-model="tmpUser.firstname">
+             <label for="firstname">Firstname</label>
+           </div>
+           <div class="input-field col s12">
+             <input id="lastname" type="text" class="validate" ng-model="tmpUser.lastname">
+             <label for="lastname">Lastname</label>
+           </div>
+           <div class="input-field col s12">
+             <input id="email" type="text" class="validate" ng-model="tmpUser.email">
+             <label for="email">Email</label>
+           </div>
+           <div class="input-field col s12">
+             <input id="username" type="text" class="validate" ng-model="tmpUser.username">
+             <label for="username">Username</label>
+           </div>
+           <div class="input-field col s12">
+             <input id="password" type="password" class="validate" ng-model="tmpUser.password">
+             <label for="password">Password</label>
+           </div>
+           <div class="input-field col s12">
+             <input id="password2" type="password" class="validate" ng-model="tmpUser.password2">
+             <label for="password2">Repeat Password</label>
+           </div>
+           <div class="input-field col s12">
+             <button type="submit" class="btn waves-effect waves-light" type="submit" name="action">Submit
+               <i class="material-icons right">send</i>
+            </button>
+           </div>
+         </div>
+       </form>
+     </div>
+  </div>
+</section>

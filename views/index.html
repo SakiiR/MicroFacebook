@@ -1,7 +1,44 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="./static/vendors/materialize/dist/css/materialize.min.css" media="screen,projection"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   </head>
   <body>
+    <div class="general-container" ng-app="microFbApp" ng-controller="MainController">
+      <nav>
+        <div class="nav-wrapper">
+          <a href="/#/home" class="brand-logo">MicroFB</a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="/#/home">Home</a></li>
+            <li ng-show="user.token === undefined"><a href="/#/login">Login</a></li>
+            <li ng-show="user.token === undefined"><a href="/#/register">Register</a></li>
+            <li ng-show="user.token !== undefined"><a href="/#/profile">Profile</a></li>
+            <li ng-show="user.token !== undefined"><a href="/#/members">Members</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div ng-view></div>
+    </div>
+
+
+    <!--  Dependencies   -->
+    <script src="./static/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="./static/vendors/materialize/dist/js/materialize.min.js"></script>
+
+    <!--  Angular Javascript Files   -->
+    <script src="./static/vendors/angular/angular.min.js"></script>
+    <script src="./static/vendors/angular-route/angular-route.min.js"></script>
+
+    <!--  Application file   -->
+    <script src="./static/js/application.js"></script>
+
+    <!--  My Controllers   -->
+    <script src="./static/js/controllers/MainController.js"></script>
+    <script src="./static/js/controllers/LoginController.js"></script>
+    <script src="./static/js/controllers/RegisterController.js"></script>
+    <script src="./static/js/controllers/HomeController.js"></script>
+
   </body>
 </html>
