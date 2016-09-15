@@ -1,13 +1,16 @@
 var express  = require('express');
 var passport = require('passport');
 var User     = require('../models/user.js'); // User Model
-var bCrypt   = require('bcrypt-nodejs');
+var sha512   = require('sha512');
+var jwt      = require('jsonwebtoken');
+
+var SECRET   = 'MySecretString';
 
 var router = express.Router();
 
 // Generates hash using bCrypt
 var createHash = function(password){
-  return bCrypt.hashSync(password);
+  return sha512(password).toString('hex');
 };
 
 // Route('/user')
@@ -45,4 +48,18 @@ router.post('/new', function(request, response) {
   });
 });
 
+// Route('/user/auth')
+router.post('/auth', function(request, response) {
+  User.findOne({'username' : request.body.username}, function(err, user) {
+    if (err) return response.json({success : false, message : 'Failed to get user'});
+    if (!user) return response.json({success : false, message : 'Failed to find user'});
+    if (createHash(request.body.password) === user.password) {
+        var token = jwt.sign(user, SECRET, {
+          expiresIn: 10080 // in seconds
+        });
+        return response.json({success : true, token : 'JWT ' + token, message : 'Successfully Authed!'});
+      }
+      return response.json({success : false, message : 'Failed to Auth, bad Password'});
+    });
+});
 module.exports = router;
