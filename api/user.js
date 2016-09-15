@@ -43,7 +43,7 @@ router.post('/new', function(request, response) {
   });
 
   newUser.save(function(err) {
-    if (err) return response.json({success : false, message : 'Failed To Save User'});
+    if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
     response.json({success : true, message : 'User Registered Successfully !'});
   });
 });
@@ -51,7 +51,7 @@ router.post('/new', function(request, response) {
 // Route('/user/auth')
 router.post('/auth', function(request, response) {
   User.findOne({'username' : request.body.username}, function(err, user) {
-    if (err) return response.json({success : false, message : 'Failed to get user'});
+    if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
     if (!user) return response.json({success : false, message : 'Failed to find user'});
     if (createHash(request.body.password) === user.password) {
         var token = jwt.sign(user, SECRET, {
@@ -62,4 +62,17 @@ router.post('/auth', function(request, response) {
       return response.json({success : false, message : 'Failed to Auth, bad Password'});
     });
 });
+
+// Route('/user/publicinfos/:id')
+router.get('/:id', function(request, response) {
+  var user_id = request.params.id
+
+  User.findOne({ _id : user_id }, function(err, user) {
+    console.log(err);
+    if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
+    if (!user) return response.json({success : false, message : 'Failed to find user with id ' + user_id});
+    console.log(user);
+  });
+});
+
 module.exports = router;
