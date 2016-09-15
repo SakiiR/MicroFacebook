@@ -19,8 +19,8 @@ router.get('/', function(request, response) {
 });
 
 // Route('/user/test')
-router.get('/test', function(request, response) {
-  response.send('User test');
+router.get('/test',passport.authenticate('jwt', { session : false }), function(request, response) {
+  response.send('Test ok ' + request.user._id);
 });
 
 // Route('/user/new')

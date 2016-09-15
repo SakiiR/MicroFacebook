@@ -17,7 +17,7 @@
     "mongoose": "^4.6.0",
     "morgan": "^1.7.0",
     "passport": "^0.3.2",
-    "passport-local": "^1.0.0",
+    "passport-jwt": "^2.1.0",
     "sha512": "0.0.1"
   }
 }

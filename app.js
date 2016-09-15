@@ -8,7 +8,8 @@ var bodyParser     = require('body-parser');
 var app            = express();
 var mongoose       = require('mongoose');
 var passport       = require('passport');
-var LocalStrategy  = require('passport-local').Strategy;
+var JwtStrategy    = require('passport-jwt').Strategy;
+ExtractJwt         = require('passport-jwt').ExtractJwt;
 var userApi        = require('./api/user.js');
 var User           = require('./models/user.js');
 var expressSession = require('express-session');
@@ -25,6 +26,16 @@ app.use(passport.initialize());
 mongoose.connect('mongodb://localhost:27017/microfb');
 
 // Passport Configuration
+passport.use(new JwtStrategy({
+    jwtFromRequest: ExtractJwt.fromAuthHeader(),
+    secretOrKey: 'MySecretString'
+  }, function(jwt_payload, done) {
+  User.findOne({ id: jwt_payload.id }, function(err, user) {
+    if (err) return done(err, false);
+    if (user) return  done(null, user);
+    return done(null, false);
+  });
+}));
 
 // Router Instanciation
 var router = express.Router();
