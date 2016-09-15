@@ -14,7 +14,7 @@ app.controller('LoginController', ['$scope', 'UserService', '$timeout', '$locati
       localStorageService.set('token', response.token);
       $timeout(function() {
         $scope.$parent.loading = false;
-        $location.path('/home');
+        if (response.success === true) $location.path('/login');
       }, 1000);
     });
   };

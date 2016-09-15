@@ -19,10 +19,13 @@ app.controller('RegisterController', ['$scope', 'UserService', '$timeout', '$loc
       $scope.tmpUser.username,
       $scope.tmpUser.password
     ).then(function(response) {
-      Materialize.toast(response.message, 50000);
+      Materialize.toast(response.message, 500);
+      if (response.success === false) {
+        return;
+      }
       $timeout(function() {
         $scope.$parent.loading = false;
-        // $location.path('/login');
+        $location.path('/login');
       }, 1000);
     });
   };
