@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('RegisterController', ['$scope', function($scope) {
+app.controller('RegisterController', ['$scope', 'UserService', '$timeout', '$location', function($scope, UserService, $timeout, $location) {
   $scope.tmpUser = {
     firstname : '',
     lastname  : '',
@@ -11,7 +11,19 @@ app.controller('RegisterController', ['$scope', function($scope) {
   };
 
   $scope.submitForm = function() {
-    // Use Resource or $http ?
-    console.log('submitting form !');
+    $scope.$parent.loading = true;
+    UserService.newUser(
+      $scope.tmpUser.firstname,
+      $scope.tmpUser.lastname,
+      $scope.tmpUser.email,
+      $scope.tmpUser.username,
+      $scope.tmpUser.password
+    ).then(function(response) {
+      Materialize.toast(response.message, 50000);
+      $timeout(function() {
+        $scope.$parent.loading = false;
+        // $location.path('/login');
+      }, 1000);
+    });
   };
 }]);

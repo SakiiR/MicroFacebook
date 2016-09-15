@@ -43,7 +43,12 @@ router.post('/new', function(request, response) {
   });
 
   newUser.save(function(err) {
-    if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
+    if (err) {
+      if (err.message.indexOf('duplicate') >= 0) { // Duplicate key
+        return response.json({success : false, message : 'User Already Exist !'});
+      }
+      return response.json({success : false, message : 'Mongo Error : ' + err.message});
+    }
     response.json({success : true, message : 'User Registered Successfully !'});
   });
 });
