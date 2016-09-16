@@ -23,6 +23,10 @@ var UserService = function($http) {
     return $http.post('/user/' + user_id + '/follow').then(handleSuccess, handleError('Failed to follow user'));;
   };
 
+  service.unfollowUser = function(user_id) {
+    return $http.post('/user/' + user_id + '/unfollow').then(handleSuccess, handleError('Failed to follow user'));;
+  };
+
   var handleSuccess = function(res) { return res.data };
   var handleError   = function(error) { return function() { return { success : false, message : error } } };
 

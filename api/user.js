@@ -18,7 +18,7 @@ function ensureAuthorized(req, res, next) {
     var bearerToken;
     var bearerHeader = req.headers["authorization"];
     if (typeof bearerHeader !== 'undefined') {
-        var bearer = bearerHeader.split(" ");
+        var bearer = bearerHeader.split(' ');
         bearerToken = bearer[1];
         req.token = bearerToken;
         next();
@@ -91,8 +91,11 @@ router.get('/:id', ensureAuthorized, function(request, response) {
     if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
     if (!user) return response.json({success : false, message : 'Failed to find user with id ' + user_id});
     user.password = undefined;
+    user.followers.filter(function(item) {
+      item.password = undefined;
+    });
     response.json({success : true, message : 'Success !', user : user});
-  });
+  }).populate('followers');
 });
 
 // Route('/user/all')
@@ -107,13 +110,14 @@ router.get('/get/all', ensureAuthorized, function(request, response) {
 });
 
 // Route('/user/:id/follow')
+// TODO:Replace mongoose get User by a direct mongo request
 router.post('/:id/follow', ensureAuthorized, function(request, response) {
-  var user = jwt.verify(request.token, 'MySecretString')._doc;
-  if (!user) return response.json({success : false, message : 'Failed to Verify token'});
+  var currentUser = jwt.verify(request.token, 'MySecretString')._doc;
+  if (!currentUser) return response.json({success : false, message : 'Failed to Verify token'});
   User.findOne({_id : request.params.id}, function(err, user) {
     if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
     if (!user) return response.json({success : false, message : 'Failed to find user ' + request.params.id});
-    user.followers.push(user._id);
+    user.followers.push(currentUser._id);
     user.save(function(err) {
       if (err) return response.json({success : false, message : 'Failed to save user ..'});
       response.json({success : true, message : 'Following!'});
@@ -122,8 +126,19 @@ router.post('/:id/follow', ensureAuthorized, function(request, response) {
 });
 
 // Route('/user/:id/unfollow')
+// TODO:Replace mongoose get User by a direct mongo request
 router.post('/:id/unfollow', ensureAuthorized, function(request, response) {
-  // TODO: slice followers !
+  var currentUser = jwt.verify(request.token, 'MySecretString')._doc;
+  if (!currentUser) return response.json({success : false, message : 'Failed to Verify token'});
+  User.findOne({_id : request.params.id}, function(err, user) {
+    if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
+    if (!user) return response.json({success : false, message : 'Failed to find user ' + request.params.id});
+    user.followers.splice(user.followers.indexOf(currentUser._id), 1);
+    user.save(function(err) {
+      if (err) return response.json({success : false, message : 'Failed to save user ..'});
+      response.json({success : true, message : 'Unfollowing!'});
+    });
+  });
 });
 
 module.exports = router;

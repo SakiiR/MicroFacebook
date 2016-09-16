@@ -11,4 +11,4 @@ var UserSchema = new mongoose.Schema({
   followers : [{type : mongoose.Schema.Types.ObjectId, ref : 'User'}],
 });
 
-module.exports = mongoose.model('users', UserSchema);
+module.exports = mongoose.model('User', UserSchema);
