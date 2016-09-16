@@ -23,6 +23,7 @@ app.use('/static', express.static('public'));
 app.use(passport.initialize());
 
 // Mongoose Connection
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/microfb');
 
 // Passport Configuration
