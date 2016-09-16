@@ -6,7 +6,8 @@ app.controller('ProfileController', ['$scope', '$routeParams', 'UserService', '$
     email     : '',
     firstname : '',
     lastname  : '',
-    _id       : ''
+    _id       : '',
+    followers : []
   };
 
   $scope.follow = function(user_id) {
@@ -15,6 +16,7 @@ app.controller('ProfileController', ['$scope', '$routeParams', 'UserService', '$
       $scope.$parent.loading = false;
       Materialize.toast(response.message, 1000);
       $scope.following = true;
+      $scope.tmpUser.followers.push($scope.$parent.user);
     });
   };
 
@@ -24,6 +26,7 @@ app.controller('ProfileController', ['$scope', '$routeParams', 'UserService', '$
       $scope.$parent.loading = false;
       Materialize.toast(response.message, 1000);
       $scope.following = false;
+      $scope.tmpUser.followers.splice($scope.tmpUser.followers.indexOf($scope.$parent.user), 1);
     });
   };
 
@@ -32,13 +35,17 @@ app.controller('ProfileController', ['$scope', '$routeParams', 'UserService', '$
     if (user_id) {
       $scope.$parent.loading = true;
       UserService.getUser(user_id).then(function(response) {
+        $scope.tmpUser = response.user;
+        angular.forEach($scope.tmpUser.followers, function(item) {
+          if (item._id === $scope.$parent.user._id) {
+            $scope.following = true;
+          }
+        });
         $scope.$parent.loading = false;
         if (response.success === false) {
           $location.path('/home');
           return;
         }
-
-        $scope.tmpUser = response.user;
       });
     }
   };

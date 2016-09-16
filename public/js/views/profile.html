@@ -11,6 +11,21 @@
               <p>Firstname : <b>{{ tmpUser.firstname }}</b></p>
               <p>Lastname  : <b>{{ tmpUser.lastname }}</b></p>
             </div>
+
+            <span class="card-title">Followers</span>
+            <div class="card-content">
+              <span ng-hide="tmpUser.followers.length > 0">No Followers Yet</span>
+              <ul class="collection" ng-show="tmpUser.followers.length > 0">
+                <li class="collection-item dismissable" ng-repeat="user in tmpUser.followers">
+                  <div>
+                    <span class="list-name">{{ user.username }}</span>
+                    <a href="/#/profile/{{ user._id }}" class="secondary-content">
+                      <i class="material-icons">send</i>
+                    </a>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
           <div class="card-action" ng-show="$parent.user._id === tmpUser._id">
             <a href="/#/profileedit">Edit Profile</a>
