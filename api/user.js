@@ -62,7 +62,9 @@ router.post('/auth', function(request, response) {
         var token = jwt.sign(user, SECRET, {
           expiresIn: 10080 // in seconds
         });
-        return response.json({success : true, token : 'JWT ' + token, message : 'Successfully Authed!'});
+        token = 'JWT ' + token;
+        user.password = undefined;
+        return response.json({success : true, token : token, user : user, message : 'Successfully Authed!'});
       }
       return response.json({success : false, message : 'Failed to Auth, bad Password'});
     });

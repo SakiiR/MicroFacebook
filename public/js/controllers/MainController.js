@@ -4,21 +4,21 @@ app.controller('MainController', ['$scope', 'localStorageService', function($sco
   $scope.loading = false;
 
   $scope.init = function() {
-    var token = localStorageService.get('token');
-    if (token !== null) {
-      $scope.user.token = token;
+    var user = localStorageService.get('user');
+    if (user !== null) {
+      $scope.user = user;
     }
   };
 
   $scope.user = {
-    token : undefined
+    // Empty User Storage
   };
 
   $scope.init();
 
   $scope.Disconnect = function() {
-    $scope.user.token = undefined;
-    localStorageService.remove('token');
+    $scope.user = {  };
+    localStorageService.remove('user');
   };
 
 }]);

@@ -18,5 +18,11 @@ app.config(function($routeProvider) {
     templateUrl : './static/js/views/home.html'
   });
 
+  $routeProvider.when('/profile/:id', {
+    controller  : 'ProfileController',
+    templateUrl : './static/js/views/profile.html'
+  });
+
+
   $routeProvider.otherwise({ redirectTo: "/home" });
 });

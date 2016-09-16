@@ -11,6 +11,10 @@ var UserService = function($http) {
     return $http.post('/user/new', {firstname : firstname, lastname : lastname, email : email, username : username, password : password}).then(handleSuccess, handleError('Failed to auth user'));
   };
 
+  service.getUser = function(user_id) {
+    return $http.get('/user/' + user_id).then(handleSuccess, handleError('Failed to retreive user'));
+  };
+
   var handleSuccess = function(res) { return res.data };
   var handleError   = function(error) { return function() { return { success : false, message : error } } };
 

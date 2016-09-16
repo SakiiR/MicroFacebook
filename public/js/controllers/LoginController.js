@@ -9,12 +9,13 @@ app.controller('LoginController', ['$scope', 'UserService', '$timeout', '$locati
   $scope.submitForm = function() {
     $scope.$parent.loading = true;
     UserService.authUser($scope.tmpUser.username, $scope.tmpUser.password).then(function(response) {
+      $scope.$parent.user = response.user;
       $scope.$parent.user.token = response.token;
       Materialize.toast(response.message, 500);
-      localStorageService.set('token', response.token);
+      localStorageService.set('user', response.user);
       $timeout(function() {
         $scope.$parent.loading = false;
-        if (response.success === true) $location.path('/login');
+        if (response.success === true) $location.path('/home');
       }, 1000);
     });
   };

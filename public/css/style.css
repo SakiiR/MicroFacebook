@@ -1,3 +1,13 @@
 .general-container section {
     margin: 10%;
 }
+
+@font-face {
+    font-family: whoa;
+    src: url(/static/fonts/whoa.ttf);
+}
+
+.brand-logo {
+  font-family: whoa;
+  font-weight: bold;
+}
