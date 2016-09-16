@@ -106,4 +106,24 @@ router.get('/get/all', ensureAuthorized, function(request, response) {
   });
 });
 
+// Route('/user/:id/follow')
+router.post('/:id/follow', ensureAuthorized, function(request, response) {
+  var user = jwt.verify(request.token, 'MySecretString')._doc;
+  if (!user) return response.json({success : false, message : 'Failed to Verify token'});
+  User.findOne({_id : request.params.id}, function(err, user) {
+    if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
+    if (!user) return response.json({success : false, message : 'Failed to find user ' + request.params.id});
+    user.followers.push(user._id);
+    user.save(function(err) {
+      if (err) return response.json({success : false, message : 'Failed to save user ..'});
+      response.json({success : true, message : 'Following!'});
+    });
+  });
+});
+
+// Route('/user/:id/unfollow')
+router.post('/:id/unfollow', ensureAuthorized, function(request, response) {
+  // TODO: slice followers !
+});
+
 module.exports = router;

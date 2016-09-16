@@ -19,6 +19,10 @@ var UserService = function($http) {
     return $http.get('/user/get/all').then(handleSuccess, handleError('Failed to retreive users'));
   };
 
+  service.followUser = function(user_id) {
+    return $http.post('/user/' + user_id + '/follow').then(handleSuccess, handleError('Failed to follow user'));;
+  };
+
   var handleSuccess = function(res) { return res.data };
   var handleError   = function(error) { return function() { return { success : false, message : error } } };
 
