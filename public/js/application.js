@@ -29,6 +29,10 @@ app.config(function($routeProvider, $httpProvider, jwtOptionsProvider) {
     templateUrl : './static/js/views/members.html'
   });
 
+  $routeProvider.when('/profileedit', {
+    controller  : 'ProfileEditController',
+    templateUrl : './static/js/views/profileedit.html'
+  });
 
   $routeProvider.otherwise({ redirectTo: "/home" });
 
@@ -38,6 +42,9 @@ app.config(function($routeProvider, $httpProvider, jwtOptionsProvider) {
         var user = localStorageService.get('user');
         if (user) return user.token;
         return null;
+      }],
+      unauthenticatedRedirector: ['$location', function($location) {
+        $location.path('/login');
       }]
     });
 
