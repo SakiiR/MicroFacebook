@@ -1,0 +1,25 @@
+<section class="members-container">
+  <h4>Member List</h4>
+  <table>
+      <thead>
+        <tr>
+            <th data-field="id">#ID</th>
+            <th data-field="Username">Username</th>
+            <th data-field="Email">Email</th>
+            <th data-field="Firstname">Firstname</th>
+            <th data-field="Lastname">Lastname</th>
+            <th data-field="Lastname">Access Profile</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="user in users">
+          <td>{{ user._id }}</td>
+          <td>{{ user.username }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.firstname }}</td>
+          <td>{{ user.lastname }}</td>
+          <td><a href="/#/profile/{{ user._id }}" class="waves-effect waves-light btn"><i class="material-icons left">assignment_ind</i>Profile</a></td>
+        </tr>
+      </tbody>
+    </table>
+</section>

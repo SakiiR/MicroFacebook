@@ -96,8 +96,8 @@ router.get('/:id', ensureAuthorized, function(request, response) {
 });
 
 // Route('/user/all')
-router.get('/all', ensureAuthorized, function(request, response) {
-  User.find({}, function(err, users) {
+router.get('/get/all', ensureAuthorized, function(request, response) {
+  User.find(function(err, users) {
     if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
     users.filter(function(item) {
       item.password = undefined;
