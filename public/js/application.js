@@ -1,8 +1,9 @@
 'use strict';
 
-var app = angular.module('microFbApp', ['ngRoute', 'LocalStorageModule']);
+var app = angular.module('microFbApp', ['ngRoute', 'LocalStorageModule', 'angular-jwt']);
 
-app.config(function($routeProvider) {
+
+app.config(function($routeProvider, $httpProvider, jwtOptionsProvider) {
   $routeProvider.when('/login', {
     controller  : 'LoginController',
     templateUrl : './static/js/views/login.html'
@@ -23,6 +24,22 @@ app.config(function($routeProvider) {
     templateUrl : './static/js/views/profile.html'
   });
 
+  $routeProvider.when('/members', {
+    controller  : 'MembersController',
+    templateUrl : './static/js/views/members.html'
+  });
+
 
   $routeProvider.otherwise({ redirectTo: "/home" });
+
+  // JWT Config
+  jwtOptionsProvider.config({
+      tokenGetter: ['localStorageService', function(localStorageService) {
+        var user = localStorageService.get('user');
+        if (user) return user.token;
+        return null;
+      }]
+    });
+
+    $httpProvider.interceptors.push('jwtInterceptor');
 });

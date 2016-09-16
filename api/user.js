@@ -13,13 +13,27 @@ var createHash = function(password){
   return sha512(password).toString('hex');
 };
 
+// Bearer parser
+function ensureAuthorized(req, res, next) {
+    var bearerToken;
+    var bearerHeader = req.headers["authorization"];
+    if (typeof bearerHeader !== 'undefined') {
+        var bearer = bearerHeader.split(" ");
+        bearerToken = bearer[1];
+        req.token = bearerToken;
+        next();
+    } else {
+        res.send(403);
+    }
+}
+
 // Route('/user')
 router.get('/', function(request, response) {
   response.send('User home');
 });
 
 // Route('/user/test')
-router.get('/test',passport.authenticate('jwt', { session : false }), function(request, response) {
+router.get('/test', ensureAuthorized, function(request, response) {
   response.send('Test ok ' + request.user._id);
 });
 
@@ -62,7 +76,7 @@ router.post('/auth', function(request, response) {
         var token = jwt.sign(user, SECRET, {
           expiresIn: 10080 // in seconds
         });
-        token = 'JWT ' + token;
+        // token = token;
         user.password = undefined;
         return response.json({success : true, token : token, user : user, message : 'Successfully Authed!'});
       }
@@ -71,13 +85,24 @@ router.post('/auth', function(request, response) {
 });
 
 // Route('/user/:id')
-router.get('/:id', passport.authenticate('jwt', { session : false }), function(request, response) {
+router.get('/:id', ensureAuthorized, function(request, response) {
   var user_id = request.params.id
   User.findOne({ _id : user_id }, function(err, user) {
     if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
     if (!user) return response.json({success : false, message : 'Failed to find user with id ' + user_id});
     user.password = undefined;
     response.json({success : true, message : 'Success !', user : user});
+  });
+});
+
+// Route('/user/all')
+router.get('/all', ensureAuthorized, function(request, response) {
+  User.find({}, function(err, users) {
+    if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
+    users.filter(function(item) {
+      item.password = undefined;
+    });
+    response.send({ success : true, message : 'Success ! ', users : users });
   });
 });
 
