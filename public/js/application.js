@@ -34,6 +34,11 @@ app.config(function($routeProvider, $httpProvider, jwtOptionsProvider) {
     templateUrl : './static/js/views/profileedit.html'
   });
 
+  $routeProvider.when('/messages', {
+    controller  : 'MessagesController',
+    templateUrl : './static/js/views/messages.html'
+  });
+
   $routeProvider.otherwise({ redirectTo: "/home" });
 
   // JWT Config
