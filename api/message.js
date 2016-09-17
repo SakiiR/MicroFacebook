@@ -10,12 +10,12 @@ router.get('/all', utils.ensureAuthorized, function(request, response) {
   Message.find({}, function(err, messages) {
     if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
     return response.json({success : true, message : 'Success !', messages : messages});
-  });
+  }).populate('author');
 });
 
 router.post('/new', utils.ensureAuthorized, function(request, response) {
   if (!request.body.content) return response.json({success : false, message : 'Failed to parse message'})
-  var currentUser = jwt.verify(request.token, SECRET)._doc;
+  var currentUser = jwt.verify(request.token, utils.secret)._doc;
   if (!currentUser) return response.json({success : false, message : 'Failed to decode token'});
   var msg = new Message({
     content : request.body.content,

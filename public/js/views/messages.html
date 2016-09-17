@@ -1,4 +1,23 @@
 <section class="messages-container">
   <h4>Messages Page</h4>
+  <div class="row">
+    <form class="row" ng-submit="sendMessage()">
+      <div class="input-field col s6">
+        <input id="message" type="text" class="validate" ng-model="tmpMessage.content">
+        <label for="message">Message Text</label>
+      </div>
+      <div class="input-field col s6">
+        <button type="submit" class="btn waves-effect waves-light" type="submit" name="action">Submit
+          <i class="material-icons right">send</i>
+       </button>
+      </div>
+    </form>
 
+    <div class="col s12">
+      <ul class="collection">
+        <span ng-show="messages.length == 0">No Messages Yet !</span>
+        <li class="collection-item" ng-repeat="message in messages">{{ message.author.username }} -> {{ message.content }}</li>
+      </ul>
+    </div>
+  </div>
 </section>
