@@ -13,6 +13,7 @@ app.controller('MessagesController', ['$scope', 'MessageService', function($scop
     MessageService.new($scope.tmpMessage.content).then(function(response) {
       if (response.success === false) {
         Materialize.toast(response.message, 1000);
+        $scope.messages.push(response.message);
         return;
       }
     });
