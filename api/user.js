@@ -34,7 +34,7 @@ router.post('/new', function(request, response) {
     lastname  : request.body.lastname,
     username  : request.body.username,
     email     : request.body.email,
-    password  : createHash(request.body.password)
+    password  : utils.createHash(request.body.password)
   });
 
   newUser.save(function(err) {
@@ -53,8 +53,8 @@ router.post('/auth', function(request, response) {
   User.findOne({'username' : request.body.username}, function(err, user) {
     if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
     if (!user) return response.json({success : false, message : 'Failed to find user'});
-    if (createHash(request.body.password) === user.password) {
-        var token = jwt.sign(user, SECRET, {
+    if (utils.createHash(request.body.password) === user.password) {
+        var token = jwt.sign(user, utils.secret, {
           expiresIn: 10080 // in seconds
         });
         // token = token;

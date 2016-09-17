@@ -17,6 +17,7 @@
             <li ng-show="user.token === undefined"><a href="/#/register">Register</a></li>
             <li ng-show="user.token !== undefined"><a href="/#/profile/{{ user._id }}">Profile</a></li>
             <li ng-show="user.token !== undefined"><a href="/#/members">Members</a></li>
+            <li ng-show="user.token !== undefined"><a href="/#/messages">Messages</a></li>
             <li ng-show="user.token !== undefined" ng-click="Disconnect()"><a href="#">Disconnect</a></li>
           </ul>
         </div>
@@ -50,9 +51,11 @@
     <script src="./static/js/controllers/HomeController.js"></script>
     <script src="./static/js/controllers/MembersController.js"></script>
     <script src="./static/js/controllers/ProfileEditController.js"></script>
+    <script src="./static/js/controllers/MessagesController.js"></script>
 
     <!--  My Services   -->
     <script src="./static/js/services/user.js"></script>
+    <script src="./static/js/services/message.js"></script>
 
   </body>
 </html>
