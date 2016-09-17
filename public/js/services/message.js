@@ -1,10 +1,14 @@
 'use strict'
 
-var MessageSerice = function($http) {
+var MessageService = function($http) {
   var service = {};
 
-  service.getALl = function() {
-    $http.get('/message/all').then(handleSuccess, handleError('Failed to retreive message'));
+  service.getAll = function() {
+    return $http.get('/message/all').then(handleSuccess, handleError('Failed to retreive message'));
+  };
+
+  service.new = function(content) {
+    return $http.post('/message/new', {content : content}).then(handleSuccess, handleError('Failed to create message'));
   };
 
   var handleSuccess = function(res) { return res.data };
@@ -14,6 +18,6 @@ var MessageSerice = function($http) {
 };
 
 // User Service API
-app.factory('MessageSerice', MessageSerice);
+app.factory('MessageService', MessageService);
 
-MessageSerice.$inject = ['$http'];
+MessageService.$inject = ['$http'];
