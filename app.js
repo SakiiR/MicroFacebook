@@ -11,9 +11,12 @@ var passport       = require('passport');
 var JwtStrategy    = require('passport-jwt').Strategy;
 ExtractJwt         = require('passport-jwt').ExtractJwt;
 var userApi        = require('./api/user.js');
+var messageApi        = require('./api/message.js');
 var User           = require('./models/user.js');
+var Message        = require('./models/message.js');
 var expressSession = require('express-session');
 var jwt            = require('jsonwebtoken');
+var utils          = require('./utils/config.js');
 
 // Configure Express App
 app.use(morgan('dev'));
@@ -29,7 +32,7 @@ mongoose.connect('mongodb://localhost:27017/microfb');
 // Passport Configuration
 passport.use(new JwtStrategy({
     jwtFromRequest: ExtractJwt.fromAuthHeader(),
-    secretOrKey: 'MySecretString'
+    secretOrKey: utils.secret
   }, function(jwt_payload, done) {
   User.findOne({ id: jwt_payload.id }, function(err, user) {
     if (err) return done(err, false);
@@ -52,6 +55,7 @@ router.get('/', function(request, response){
 // Router Definition
 app.use('/', router);
 app.use('/user', userApi);
+app.use('/message', messageApi);
 
 app.listen(PORT, function(err) {
   console.log('[+] Listenning on http://localhost:' + PORT);

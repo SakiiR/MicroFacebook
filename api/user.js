@@ -3,29 +3,10 @@ var passport = require('passport');
 var User     = require('../models/user.js'); // User Model
 var sha512   = require('sha512');
 var jwt      = require('jsonwebtoken');
-
-var SECRET   = 'MySecretString';
+var utils    = require('../utils/config.js');
 
 var router = express.Router();
 
-// Generates hash using bCrypt
-var createHash = function(password){
-  return sha512(password).toString('hex');
-};
-
-// Bearer parser
-function ensureAuthorized(req, res, next) {
-    var bearerToken;
-    var bearerHeader = req.headers["authorization"];
-    if (typeof bearerHeader !== 'undefined') {
-        var bearer = bearerHeader.split(' ');
-        bearerToken = bearer[1];
-        req.token = bearerToken;
-        next();
-    } else {
-        res.send(403);
-    }
-}
 
 // Route('/user')
 router.get('/', function(request, response) {
@@ -33,7 +14,7 @@ router.get('/', function(request, response) {
 });
 
 // Route('/user/test')
-router.get('/test', ensureAuthorized, function(request, response) {
+router.get('/test', utils.ensureAuthorized, function(request, response) {
   response.send('Test ok ' + request.user._id);
 });
 
@@ -85,7 +66,7 @@ router.post('/auth', function(request, response) {
 });
 
 // Route('/user/:id')
-router.get('/:id', ensureAuthorized, function(request, response) {
+router.get('/:id', utils.ensureAuthorized, function(request, response) {
   var user_id = request.params.id
   User.findOne({ _id : user_id }, function(err, user) {
     if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
@@ -99,7 +80,7 @@ router.get('/:id', ensureAuthorized, function(request, response) {
 });
 
 // Route('/user/all')
-router.get('/get/all', ensureAuthorized, function(request, response) {
+router.get('/get/all', utils.ensureAuthorized, function(request, response) {
   User.find(function(err, users) {
     if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
     users.filter(function(item) {
@@ -111,7 +92,7 @@ router.get('/get/all', ensureAuthorized, function(request, response) {
 
 // Route('/user/:id/follow')
 // TODO:Replace mongoose get User by a direct mongo request
-router.post('/:id/follow', ensureAuthorized, function(request, response) {
+router.post('/:id/follow', utils.ensureAuthorized, function(request, response) {
   var currentUser = jwt.verify(request.token, 'MySecretString')._doc;
   if (!currentUser) return response.json({success : false, message : 'Failed to Verify token'});
   User.findOne({_id : request.params.id}, function(err, user) {
@@ -127,7 +108,7 @@ router.post('/:id/follow', ensureAuthorized, function(request, response) {
 
 // Route('/user/:id/unfollow')
 // TODO:Replace mongoose get User by a direct mongo request
-router.post('/:id/unfollow', ensureAuthorized, function(request, response) {
+router.post('/:id/unfollow', utils.ensureAuthorized, function(request, response) {
   var currentUser = jwt.verify(request.token, 'MySecretString')._doc;
   if (!currentUser) return response.json({success : false, message : 'Failed to Verify token'});
   User.findOne({_id : request.params.id}, function(err, user) {
