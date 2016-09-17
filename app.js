@@ -6,12 +6,14 @@ var express        = require('express');
 var morgan         = require('morgan');
 var bodyParser     = require('body-parser');
 var app            = express();
+var expressWs      = require('express-ws')(app);
 var mongoose       = require('mongoose');
 var passport       = require('passport');
 var JwtStrategy    = require('passport-jwt').Strategy;
 ExtractJwt         = require('passport-jwt').ExtractJwt;
 var userApi        = require('./api/user.js');
-var messageApi        = require('./api/message.js');
+var messageApi     = require('./api/message.js');
+var wsApi          = require('./api/ws.js');
 var User           = require('./models/user.js');
 var Message        = require('./models/message.js');
 var expressSession = require('express-session');
@@ -56,6 +58,7 @@ router.get('/', function(request, response){
 app.use('/', router);
 app.use('/user', userApi);
 app.use('/message', messageApi);
+app.use('/ws', wsApi)
 
 app.listen(PORT, function(err) {
   console.log('[+] Listenning on http://localhost:' + PORT);
