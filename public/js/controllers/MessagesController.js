@@ -8,14 +8,9 @@ app.controller('MessagesController', ['$scope', 'MessageService', '$timeout', fu
     MessageService.getAll().then(function(response) {
       $scope.messages = response.messages;
     });
-
-    // websocket inc ???
-    (function tick() {
-      MessageService.getAll().then(function(response) {
-        $scope.messages = response.messages;
-        $timeout(tick, 1000);
-      });
-    })();
+    socket.on('new_message', function(message) {
+      $scope.messages.push(message);
+    });
   };
 
   $scope.sendMessage = function() {
@@ -25,7 +20,7 @@ app.controller('MessagesController', ['$scope', 'MessageService', '$timeout', fu
         Materialize.toast(response.message, 1000);
         return;
       }
-      $scope.messages.push(response.msg);
+      socket.emit('new_message', response.msg);
     });
   };
 

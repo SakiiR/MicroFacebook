@@ -14,7 +14,6 @@ var JwtStrategy    = require('passport-jwt').Strategy;
 var ExtractJwt     = require('passport-jwt').ExtractJwt;
 var userApi        = require('./api/user.js');
 var messageApi     = require('./api/message.js');
-var wsApi          = require('./api/ws.js');
 var User           = require('./models/user.js');
 var Message        = require('./models/message.js');
 var expressSession = require('express-session');
@@ -55,11 +54,20 @@ router.get('/', function(request, response){
     response.sendFile(__dirname + '/views/index.html');
 });
 
+// WebSockets
+io.sockets.on('connection', function(socket) {
+  // New Message
+  socket.on('new_message', function(message) {
+    io.emit('new_message', message);
+  });
+
+  //
+});
+
 // Router Definition
 app.use('/', router);
 app.use('/user', userApi);
 app.use('/message', messageApi);
-app.use('/ws', wsApi)
 
 server.listen(PORT, function(err) {
   console.log('[+] Listenning on http://localhost:' + PORT);
