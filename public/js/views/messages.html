@@ -16,7 +16,10 @@
     <div class="col s12">
       <ul class="collection">
         <span ng-show="messages.length == 0">No Messages Yet !</span>
-        <li class="collection-item" ng-repeat="message in messages">{{ message.author.username }} -> {{ message.content }}</li>
+        <li class="collection-item row chat" ng-repeat="message in messages | orderBy:'-'">
+          <div class="username col s2"><b>{{ message.author.username }}</b></div>
+          <div class="content col s10">{{ message.content }}</div>
+        </li>
       </ul>
     </div>
   </div>

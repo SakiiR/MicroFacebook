@@ -23,8 +23,10 @@ router.post('/new', utils.ensureAuthorized, function(request, response) {
   });
   msg.save(function(err) {
     if (err) return response.json({success : false, message : 'Failed to save message'});
-    // TODO:add author population
-    response.json({success : true, message : 'Success !', msg : msg});
+    Message.populate(msg,  {path: 'author'}, function(err, msg) {
+      if (err) return response.json({success : false, message : 'Failed to populate message'});
+      response.json({success : true, message : 'Success !', msg : msg});
+    });
   });
 });
 

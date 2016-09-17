@@ -13,8 +13,8 @@ app.controller('LoginController', ['$scope', 'UserService', '$timeout', '$locati
       $scope.$parent.user.token = response.token;
       Materialize.toast(response.message, 500);
       localStorageService.set('user', response.user);
+      $scope.$parent.loading = false;
       $timeout(function() {
-        $scope.$parent.loading = false;
         if (response.success === true) $location.path('/home');
       }, 1000);
     });
