@@ -13,12 +13,12 @@
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "express-session": "^1.14.1",
-    "express-ws": "^2.0.0",
     "jsonwebtoken": "^7.1.9",
     "mongoose": "^4.6.0",
     "morgan": "^1.7.0",
     "passport": "^0.3.2",
     "passport-jwt": "^2.1.0",
-    "sha512": "0.0.1"
+    "sha512": "0.0.1",
+    "socket.io": "^1.4.8"
   }
 }

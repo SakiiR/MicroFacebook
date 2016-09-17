@@ -3,8 +3,5 @@ var passport = require('passport');
 
 var router = express.Router();
 
-router.ws('/message', function(ws, request) {
-  
-});
-
+// TODO:add ws
 module.exports = router;

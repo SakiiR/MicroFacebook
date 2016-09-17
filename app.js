@@ -6,11 +6,12 @@ var express        = require('express');
 var morgan         = require('morgan');
 var bodyParser     = require('body-parser');
 var app            = express();
-var expressWs      = require('express-ws')(app);
+var server         = require('http').createServer(app);
+var io             = require('socket.io').listen(server);
 var mongoose       = require('mongoose');
 var passport       = require('passport');
 var JwtStrategy    = require('passport-jwt').Strategy;
-ExtractJwt         = require('passport-jwt').ExtractJwt;
+var ExtractJwt     = require('passport-jwt').ExtractJwt;
 var userApi        = require('./api/user.js');
 var messageApi     = require('./api/message.js');
 var wsApi          = require('./api/ws.js');
@@ -60,6 +61,6 @@ app.use('/user', userApi);
 app.use('/message', messageApi);
 app.use('/ws', wsApi)
 
-app.listen(PORT, function(err) {
+server.listen(PORT, function(err) {
   console.log('[+] Listenning on http://localhost:' + PORT);
 });
