@@ -1,6 +1,7 @@
 var express  = require('express');
 var passport = require('passport');
 var User     = require('../models/user.js'); // User Model
+var Message  = require('../models/message.js'); // Message Model
 var sha512   = require('sha512');
 var jwt      = require('jsonwebtoken');
 var utils    = require('../utils/config.js');
@@ -75,7 +76,10 @@ router.get('/:id', utils.ensureAuthorized, function(request, response) {
     user.followers.filter(function(item) {
       item.password = undefined;
     });
-    response.json({success : true, message : 'Success !', user : user});
+    Message.find({author : user._id}, function(err, messages) {
+      if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
+      response.json({success : true, message : 'Success !', user : user, messages : messages});
+    });
   }).populate('followers');
 });
 

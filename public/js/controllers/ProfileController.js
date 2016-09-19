@@ -2,12 +2,13 @@
 
 app.controller('ProfileController', ['$scope', '$routeParams', 'UserService', '$location', function($scope, $routeParams, UserService, $location) {
   $scope.tmpUser = {
-    username  : '',
-    email     : '',
-    firstname : '',
-    lastname  : '',
-    _id       : '',
-    followers : []
+    username     : '',
+    email        : '',
+    firstname    : '',
+    lastname     : '',
+    _id          : '',
+    followers    : [],
+    messageCount : 0
   };
 
   $scope.follow = function(user_id) {
@@ -41,6 +42,7 @@ app.controller('ProfileController', ['$scope', '$routeParams', 'UserService', '$
             $scope.following = true;
           }
         });
+        $scope.tmpUser.messageCount = response.messages.length;
         $scope.$parent.loading = false;
         if (response.success === false) {
           $location.path('/home');

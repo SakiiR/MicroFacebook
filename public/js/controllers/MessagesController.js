@@ -24,5 +24,17 @@ app.controller('MessagesController', ['$scope', 'MessageService', '$timeout', fu
     });
   };
 
+  $scope.deleteMessage = function(message_id) {
+    MessageService.delete(message_id).then(function(response) {
+      Materialize.toast(response.message, 1000);
+      if (response.success === false) {
+        return ;
+      }
+      $scope.messages = $scope.messages.filter(function(item) {
+        return (item._id !== message_id);
+      });
+    });
+  };
+
   $scope.init();
 }]);

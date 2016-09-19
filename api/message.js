@@ -30,4 +30,18 @@ router.post('/new', utils.ensureAuthorized, function(request, response) {
   });
 });
 
+router.post('/:id/delete', utils.ensureAuthorized, function(request, response) {
+  var currentUser = jwt.verify(request.token, utils.secret)._doc;
+  if (!currentUser) return response.json({success : false, message : 'Failed to decode token'});
+  Message.findOne({_id : request.params.id}, function(err, message) {
+    if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
+    if (!message) return response.json({success : false, message : 'Failed to find message'});
+    if (message.author.toString() !== currentUser._id) return response.json({sucess : false, message : 'You are not owning this message'});
+    Message.remove({_id : message._id}, function(err) {
+      if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
+      return response.json({success : true, message : 'Success!'});
+    });
+  });
+});
+
 module.exports = router;
