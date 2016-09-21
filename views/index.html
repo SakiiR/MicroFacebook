@@ -13,7 +13,6 @@
           <a href="/#/home" class="brand-logo">MicroFB</a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li style="margin-right:20px;color:black;" ng-show="user.token !== undefined" ><span>Logged in as {{ user.username }}</span></li>
-
             <li><a href="/#/home">Home</a></li>
             <li ng-show="user.token === undefined"><a href="/#/login">Login</a></li>
             <li ng-show="user.token === undefined"><a href="/#/register">Register</a></li>
@@ -26,11 +25,9 @@
         <div class="progress" ng-show="loading">
           <div class="indeterminate"></div>
         </div>
-
       </nav>
       <div class="container" ng-view></div>
     </div>
-
 
     <!--  Dependencies   -->
     <script src="./static/vendors/jquery/dist/jquery.min.js"></script>
