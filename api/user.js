@@ -23,13 +23,12 @@ router.get('/test', utils.ensureAuthorized, function(request, response) {
 router.post('/new', function(request, response) {
   if (
     !request.body.firstname ||
-    !request.body.lastname ||
-    !request.body.email ||
-    !request.body.username ||
+    !request.body.lastname  ||
+    !request.body.email     ||
+    !request.body.username  ||
     !request.body.password) {
     return response.json({success : false, message : 'Missing Fiel(s)'});
   }
-
   var newUser = new User({
     firstname : request.body.firstname,
     lastname  : request.body.lastname,
