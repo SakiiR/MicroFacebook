@@ -39,6 +39,11 @@ app.config(function($routeProvider, $httpProvider, jwtOptionsProvider) {
     templateUrl : './static/js/views/messages.html'
   });
 
+  $routeProvider.when('/mailbox', {
+    controller  : 'MailboxController',
+    templateUrl : './static/js/views/mailbox.html'
+  });
+
   $routeProvider.otherwise({ redirectTo: "/home" });
 
   // JWT Config

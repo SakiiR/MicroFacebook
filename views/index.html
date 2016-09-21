@@ -8,7 +8,7 @@
   </head>
   <body>
     <div class="general-container" ng-app="microFbApp" ng-controller="MainController">
-      <nav>
+      <nav class="teal lighten-1">
         <div class="nav-wrapper">
           <a href="/#/home" class="brand-logo">MicroFB</a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -19,6 +19,7 @@
             <li ng-show="user.token !== undefined"><a href="/#/profile/{{ user._id }}">Profile</a></li>
             <li ng-show="user.token !== undefined"><a href="/#/members">Members</a></li>
             <li ng-show="user.token !== undefined"><a href="/#/messages">Messages</a></li>
+            <li ng-show="user.token !== undefined"><a href="/#/mailbox">Mailbox<span ng-show="user.unreadedMessageCount" class="new badge">{{ user.unreadedMessageCount }}</span></a></li>
             <li ng-show="user.token !== undefined" ng-click="Disconnect()"><a href="#">Disconnect</a></li>
           </ul>
         </div>
@@ -45,6 +46,7 @@
     <!--  My Services   -->
     <script src="./static/js/services/user.js"></script>
     <script src="./static/js/services/message.js"></script>
+    <script src="./static/js/services/privateMessage.js"></script>
 
     <!--  My Controllers   -->
     <script src="./static/js/controllers/MainController.js"></script>
@@ -55,6 +57,7 @@
     <script src="./static/js/controllers/MembersController.js"></script>
     <script src="./static/js/controllers/ProfileEditController.js"></script>
     <script src="./static/js/controllers/MessagesController.js"></script>
+    <script src="./static/js/controllers/MailboxController.js"></script>
 
   </body>
 </html>

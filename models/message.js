@@ -1,4 +1,4 @@
-// Mongoose Post Schema
+// Mongoose Message Schema
 
 var mongoose = require('mongoose');
 

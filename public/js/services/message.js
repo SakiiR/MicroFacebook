@@ -21,7 +21,7 @@ var MessageService = function($http) {
   return service;
 };
 
-// User Service API
+// Message Service API
 app.factory('MessageService', MessageService);
 
 MessageService.$inject = ['$http'];

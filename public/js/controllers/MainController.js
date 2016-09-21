@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('MainController', ['$scope', 'localStorageService', function($scope, localStorageService) {
+app.controller('MainController', ['$scope', 'localStorageService', 'PrivateMessageService', function($scope, localStorageService, PrivateMessageService) {
   $scope.loading = false;
 
   $scope.init = function() {
@@ -8,6 +8,10 @@ app.controller('MainController', ['$scope', 'localStorageService', function($sco
     if (user !== null) {
       $scope.user = user;
     }
+    // Check Mailbow
+    PrivateMessageService.countUnreaded().then(function(response) {
+      $scope.user.unreadedMessageCount = response.count;
+    });
   };
 
   $scope.user = {

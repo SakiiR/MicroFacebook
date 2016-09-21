@@ -16,14 +16,24 @@ router.get('/all_received', utils.ensureAuthorized, function(request, response) 
   }).populate('source', 'destination');
 });
 
-// Route('/private_message/all_unread')
-router.get('/all_unread', utils.ensureAuthorized, function(request, response) {
+// Route('/private_message/all_unreaded')
+router.get('/all_unreaded', utils.ensureAuthorized, function(request, response) {
   var currentUser = jwt.verify(request.token, utils.secret)._doc;
   if (!currentUser) return response.json({success : false, message : 'Failed to decode token'});
   PrivateMessage.find({destination : currentUser._id}, function(err, messages) {
     if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
     return response.json({success : true, message : 'Success!', messages : messages});
   }).populate('source', 'destination');
+});
+
+// Route('private_message/count_unreaded')
+router.get('/count_unreaded', utils.ensureAuthorized, function(request, response) {
+  var currentUser = jwt.verify(request.token, utils.secret)._doc;
+  if (!currentUser) return response.json({success : false, message : 'Failed to decode token'});
+  PrivateMessage.count({destination : currentUser._id, readed : false}, function(err, count) {
+    if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
+    return response.json({success : true, message : 'Success!', count : count});
+  });
 });
 
 // Route('/private_message/new')
