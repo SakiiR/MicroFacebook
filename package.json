@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon"
+    "start": "./node_modules/nodemon/bin/nodemon.js"
   },
   "author": "Erwan Dupard (erwan.dupard@epitech.eu)",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "jsonwebtoken": "^7.1.9",
     "mongoose": "^4.6.0",
     "morgan": "^1.7.0",
+    "nodemon": "^1.10.2",
     "passport": "^0.3.2",
     "passport-jwt": "^2.1.0",
     "sha512": "0.0.1",

@@ -3,7 +3,7 @@
 
 ## Dependencies
 ```
-npm install -g nodemon
+npm install
 ```
 ## Usage
 ```
