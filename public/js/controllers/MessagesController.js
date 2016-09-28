@@ -1,15 +1,12 @@
 'use strict';
 
-app.controller('MessagesController', ['$scope', 'MessageService', '$timeout', function($scope, MessageService, $timeout) {
+app.controller('MessagesController', ['$scope', 'MessageService', '$timeout', 'MicroFacebookWS', function($scope, MessageService, $timeout) {
   $scope.messages = [];
   $scope.tmpMessage = {content : ''};
 
   $scope.init = function() {
     MessageService.getAll().then(function(response) {
       $scope.messages = response.messages;
-    });
-    socket.on('new_message', function(message) {
-      $scope.messages.push(message);
     });
   };
 

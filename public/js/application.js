@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('microFbApp', ['ngRoute', 'LocalStorageModule', 'angular-jwt']);
+var app = angular.module('microFbApp', ['ngRoute', 'LocalStorageModule', 'angular-jwt', 'btford.socket-io']);
 
 
 app.config(function($routeProvider, $httpProvider, jwtOptionsProvider) {
@@ -59,4 +59,9 @@ app.config(function($routeProvider, $httpProvider, jwtOptionsProvider) {
     });
 
     $httpProvider.interceptors.push('jwtInterceptor');
+});
+
+
+app.factory('MicroFacebookWS', function(socketFactory) {
+  return socketFactory();
 });

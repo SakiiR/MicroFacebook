@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('MainController', ['$scope', 'localStorageService', 'PrivateMessageService', function($scope, localStorageService, PrivateMessageService) {
+app.controller('MainController', ['$scope', 'localStorageService', 'PrivateMessageService', 'MicroFacebookWS', function($scope, localStorageService, PrivateMessageService, MicroFacebookWS) {
   $scope.loading = false;
 
   $scope.init = function() {
@@ -8,10 +8,12 @@ app.controller('MainController', ['$scope', 'localStorageService', 'PrivateMessa
     if (user !== null) {
       $scope.user = user;
     }
-    // Check Mailbow
+    // Check Mailbox
     PrivateMessageService.countUnreaded().then(function(response) {
       $scope.user.unreadedMessageCount = response.count;
     });
+
+    console.log(MicroFacebookWS);
   };
 
   $scope.user = {
