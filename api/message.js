@@ -6,6 +6,10 @@ var utils    = require('../utils/config.js');
 
 var router = express.Router();
 
+/*
+ * @Route('/message/all')
+ * Description: Get All Public Messages
+ */
 router.get('/all', utils.ensureAuthorized, function(request, response) {
   Message.find({}, function(err, messages) {
     if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
@@ -13,8 +17,12 @@ router.get('/all', utils.ensureAuthorized, function(request, response) {
   }).populate('author');
 });
 
+/*
+ * @Route('/message/new')
+ * Description: Send A New Public Message
+ */
 router.post('/new', utils.ensureAuthorized, function(request, response) {
-  if (!request.body.content) return response.json({success : false, message : 'Failed to parse message'})
+  if (!request.body.content) return response.json({success : false, message : 'Failed to parse message'});
   var currentUser = jwt.verify(request.token, utils.secret)._doc;
   if (!currentUser) return response.json({success : false, message : 'Failed to decode token'});
   var msg = new Message({
@@ -30,6 +38,10 @@ router.post('/new', utils.ensureAuthorized, function(request, response) {
   });
 });
 
+/*
+ * @Route('/message/:id/delete')
+ * Description: Delete A Public Message By ID
+ */
 router.post('/:id/delete', utils.ensureAuthorized, function(request, response) {
   var currentUser = jwt.verify(request.token, utils.secret)._doc;
   if (!currentUser) return response.json({success : false, message : 'Failed to decode token'});

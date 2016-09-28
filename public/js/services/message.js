@@ -15,8 +15,15 @@ var MessageService = function($http) {
     return $http.post('/message/' + message_id + '/delete').then(handleSuccess, handleError('Failed to remove message'));
   };
 
-  var handleSuccess = function(res) { return res.data };
-  var handleError   = function(error) { return function() { return { success : false, message : error } } };
+  var handleSuccess = function(response) {
+    return response.data;
+  };
+  
+  var handleError   = function(error) {
+    return (function() {
+      return ({ success : false, message : error });
+    });
+  };
 
   return service;
 };

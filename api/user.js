@@ -1,25 +1,15 @@
 var express  = require('express');
-var passport = require('passport');
 var User     = require('../models/user.js'); // User Model
 var Message  = require('../models/message.js'); // Message Model
-var sha512   = require('sha512');
 var jwt      = require('jsonwebtoken');
 var utils    = require('../utils/config.js');
 
 var router = express.Router();
 
-
-// Route('/user')
-router.get('/', function(request, response) {
-  response.send('User home');
-});
-
-// Route('/user/test')
-router.get('/test', utils.ensureAuthorized, function(request, response) {
-  response.send('Test ok ' + request.user._id);
-});
-
-// Route('/user/new')
+/*
+ * @Route('/user/new')
+ * Description: Register A New User
+ */
 router.post('/new', function(request, response) {
   if (
     !request.body.firstname ||
@@ -48,7 +38,10 @@ router.post('/new', function(request, response) {
   });
 });
 
-// Route('/user/auth')
+/*
+ * @Route('/user/auth')
+ * Description: Auth A User By Username AND Password
+ */
 router.post('/auth', function(request, response) {
   User.findOne({'username' : request.body.username}, function(err, user) {
     if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
@@ -65,9 +58,12 @@ router.post('/auth', function(request, response) {
     });
 });
 
-// Route('/user/:id')
+/*
+ * @Route('/user/:id')
+ * Description: Retreive Single User Information
+ */
 router.get('/:id', utils.ensureAuthorized, function(request, response) {
-  var user_id = request.params.id
+  var user_id = request.params.id;
   User.findOne({ _id : user_id }, function(err, user) {
     if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
     if (!user) return response.json({success : false, message : 'Failed to find user with id ' + user_id});
@@ -82,7 +78,10 @@ router.get('/:id', utils.ensureAuthorized, function(request, response) {
   }).populate('followers');
 });
 
-// Route('/user/all')
+/*
+ * @Route('/user/get/all')
+ * Description: Retreive A Complete User List
+ */
 router.get('/get/all', utils.ensureAuthorized, function(request, response) {
   User.find(function(err, users) {
     if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
@@ -93,8 +92,10 @@ router.get('/get/all', utils.ensureAuthorized, function(request, response) {
   });
 });
 
-// Route('/user/:id/follow')
-// TODO:Replace mongoose get User by a direct mongo request
+/*
+ * @Route('/user/:id/follow')
+ * Description: Follow A User
+ */
 router.post('/:id/follow', utils.ensureAuthorized, function(request, response) {
   var currentUser = jwt.verify(request.token, 'MySecretString')._doc;
   if (!currentUser) return response.json({success : false, message : 'Failed to Verify token'});
@@ -109,8 +110,10 @@ router.post('/:id/follow', utils.ensureAuthorized, function(request, response) {
   });
 });
 
-// Route('/user/:id/unfollow')
-// TODO:Replace mongoose get User by a direct mongo request
+/*
+ * @Route('/user/:id/unfollow')
+ * Description: Unfollow A User
+ */
 router.post('/:id/unfollow', utils.ensureAuthorized, function(request, response) {
   var currentUser = jwt.verify(request.token, 'MySecretString')._doc;
   if (!currentUser) return response.json({success : false, message : 'Failed to Verify token'});

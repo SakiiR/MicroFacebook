@@ -21,7 +21,7 @@ var PrivateMessage    = require('./models/privateMessage.js');
 var expressSession    = require('express-session');
 var jwt               = require('jsonwebtoken');
 var utils             = require('./utils/config.js');
-
+)
 // Configure Express App
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended : true }));
