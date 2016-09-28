@@ -16,12 +16,8 @@ var userApi           = require('./api/user.js');
 var messageApi        = require('./api/message.js');
 var privateMessageApi = require('./api/privateMessage.js');
 var User              = require('./models/user.js');
-var Message           = require('./models/message.js');
-var PrivateMessage    = require('./models/privateMessage.js');
-var expressSession    = require('express-session');
-var jwt               = require('jsonwebtoken');
 var utils             = require('./utils/config.js');
-)
+
 // Configure Express App
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended : true }));
@@ -61,9 +57,7 @@ io.sockets.on('connection', function(socket) {
   // New Message
   socket.on('new_message', function(message) {
     io.emit('new_message', message);
-  });
-
-  //
+    });
 });
 
 
@@ -73,6 +67,6 @@ app.use('/user', userApi);
 app.use('/message', messageApi);
 app.use('/private_message', privateMessageApi);
 
-server.listen(PORT, function(err) {
+server.listen(PORT, function() {
   console.log('[+] Listenning on http://localhost:' + PORT);
 });
