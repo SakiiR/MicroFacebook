@@ -14,11 +14,15 @@ app.controller('MailboxController', ['$scope', 'UserService', 'PrivateMessageSer
         data : userArray
       });
     });
+    PrivateMessageService.getAllConcerned().then(function (response) {
+      $scope.privateMessages = response.messages;
+    });
   };
 
   $scope.users = [];
   $scope.destination = '';
   $scope.content = '';
+  $scope.privateMessages = [];
 
   $scope.getIdByUsername = function(username) {
     var id = null;

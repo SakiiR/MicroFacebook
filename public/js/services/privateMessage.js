@@ -3,6 +3,10 @@
 var PrivateMessageService = function($http) {
   var service = {};
 
+  service.getAllConcerned = function() {
+    return $http.get('/private_message/all_concerned').then(handleSuccess, handleError('Failed to get all concerned message'));
+  };
+
   service.getAllReceived = function() {
     return $http.get('/private_message/all_received').then(handleSuccess, handleError('Failed to get all received message'));
   };

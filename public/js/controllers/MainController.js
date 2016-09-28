@@ -12,8 +12,6 @@ app.controller('MainController', ['$scope', 'localStorageService', 'PrivateMessa
     PrivateMessageService.countUnreaded().then(function(response) {
       $scope.user.unreadedMessageCount = response.count;
     });
-
-    console.log(MicroFacebookWS);
   };
 
   $scope.user = {

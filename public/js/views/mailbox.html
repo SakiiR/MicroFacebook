@@ -31,8 +31,14 @@
           </button>
         </div>
       </div>
-
-
     </form>
   </ul>
+
+  <div class="private-messages">
+    <div class="row" ng-repeat="privateMessage in privateMessages">
+      <div class="col s2 date">{{ privateMessage.createdAt}}</div>
+      <div class="col s2 username">{{ privateMessage.source.username }}</div>
+      <div class="col s8 content">{{ privateMessage.content }}</div>
+    </div>
+  </div>
 </section>
