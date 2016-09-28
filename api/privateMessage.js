@@ -43,11 +43,11 @@ router.post('/new', utils.ensureAuthorized, function(request, response) {
   if (!currentUser) return response.json({success : false, message : 'Failed to decode token'});
   if (!request.body.destination) return response.json({success : false, message : 'Failed to retreive destination'});
   if (!request.body.content) return response.json({success : false, message : 'Failed to retreive content'});
-  User.find({username : request.body.destination}, function(err, user) {
+  User.findOne({username : request.body.destination}, function(err, user) {
     if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
     if (!user) return response.json({success : false, message : 'Failed to find user : ' + request.body.destination});
-    var destinationId = user._id;
-    if (destinationId === currentUser._id) return response.json({success : false, message : "You Can't Send Message To Yourself"});
+    var destinationId = user._id.toString();
+    if (currentUser._id === destinationId) return response.json({success : false, message : "You Can't Send Message To Yourself"});
     var message = new PrivateMessage({
       content     : request.body.content,
       readed      : false,
