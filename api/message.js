@@ -51,7 +51,7 @@ router.post('/:id/delete', utils.ensureAuthorized, function(request, response) {
     if (message.author.toString() !== currentUser._id) return response.json({sucess : false, message : 'You are not owning this message'});
     Message.remove({_id : message._id}, function(err) {
       if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
-      return response.json({success : true, message : 'Success!'});
+      return response.json({success : true, message : 'Success !'});
     });
   });
 });

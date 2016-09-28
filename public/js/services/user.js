@@ -20,11 +20,11 @@ var UserService = function($http) {
   };
 
   service.followUser = function(user_id) {
-    return $http.post('/user/' + user_id + '/follow').then(handleSuccess, handleError('Failed to follow user'));;
+    return $http.post('/user/' + user_id + '/follow').then(handleSuccess, handleError('Failed to follow user'));
   };
 
   service.unfollowUser = function(user_id) {
-    return $http.post('/user/' + user_id + '/unfollow').then(handleSuccess, handleError('Failed to follow user'));;
+    return $http.post('/user/' + user_id + '/unfollow').then(handleSuccess, handleError('Failed to follow user'));
   };
 
   var handleSuccess = function(res) { return res.data };
