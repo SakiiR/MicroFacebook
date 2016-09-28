@@ -40,6 +40,7 @@ router.get('/all_concerned', utils.ensureAuthorized, function(request, response)
     return response.json({success : true, message : 'Success!', messages : messages});
   }).populate('source').populate('destination');
 });
+
 /*
  * @Route('/private_message/all_unreaded')
  * Description: Get All Unreaded Messages By User
