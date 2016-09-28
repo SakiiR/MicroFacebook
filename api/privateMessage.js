@@ -1,6 +1,7 @@
 var express         = require('express');
 var passport        = require('passport');
-var PrivateMessage  = require('../models/message.js'); // User Model
+var PrivateMessage  = require('../models/privateMessage.js'); // User Model
+var User            = require('../models/user.js'); // User Model
 var jwt             = require('jsonwebtoken');
 var utils           = require('../utils/config.js');
 
@@ -42,15 +43,21 @@ router.post('/new', utils.ensureAuthorized, function(request, response) {
   if (!currentUser) return response.json({success : false, message : 'Failed to decode token'});
   if (!request.body.destination) return response.json({success : false, message : 'Failed to retreive destination'});
   if (!request.body.content) return response.json({success : false, message : 'Failed to retreive content'});
-  var message = new PrivateMessage({
-    content     : request.body.content,
-    readed      : false,
-    source      : currentUser._id,
-    destination : request.body.destination
-  });
-  message.save(function(err) {
+
+  User.find({username : request.body.destination}, function(err, user) {
     if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
-    response.json({success : true, message : 'Success!', message : message});
+    if (!user) return response.json({success : false, message : 'Failed to find User : ' + request.body.destination});
+    var destinationId = user._id;
+    var message = new PrivateMessage({
+      content     : request.body.content,
+      readed      : false,
+      source      : currentUser._id,
+      destination : destinationId
+    });
+    message.save(function(err) {
+      if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
+      response.json({success : true, message : 'Success!'});
+    });
   });
 });
 

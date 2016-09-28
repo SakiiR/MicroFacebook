@@ -35,10 +35,10 @@ app.controller('MailboxController', ['$scope', 'UserService', 'PrivateMessageSer
     var id = $scope.getIdByUsername($scope.destination);
     if (id === null) return Materialize.toast('Failed to find user !', 1000);
     PrivateMessageService.new($scope.content, $scope.destination).then(function(response) {
-      if (response.success === false) return Materialize.toast('Failed to send message', 1000);
+      if (response.success === false) return Materialize.toast(response.message, 1000);
       $scope.content = '';
       $scope.destination = '';
-      return Materialize.toast('Success!', 1000);
+      return Materialize.toast(response.message, 1000);
     });
   };
 

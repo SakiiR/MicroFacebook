@@ -3,7 +3,7 @@
 var mongoose = require('mongoose');
 
 var PrivateMessageSchema = new mongoose.Schema({
-  content     : { type : String, required : true },
+  content     : { type : String  },
   readed      : { type : Boolean },
   source      : { type : mongoose.Schema.Types.ObjectId, ref : 'User' },
   destination : { type : mongoose.Schema.Types.ObjectId, ref : 'User' },

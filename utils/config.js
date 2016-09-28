@@ -17,7 +17,7 @@ var ensureAuthorized = function(req, res, next) {
         req.token = bearerToken;
         next();
     } else {
-        res.send(403);
+        res.sendStatus(403);
     }
 };
 
