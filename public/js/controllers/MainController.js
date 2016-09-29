@@ -14,6 +14,11 @@ app.controller('MainController', ['$scope', 'localStorageService', 'PrivateMessa
     });
   };
 
+  MicroFacebookWS.forward('updated_message', $scope);
+  $scope.$on('socket:updated_message', function() {
+    Materialize.toast('New Message !', 1000);
+  });
+
   $scope.user = {
     // Empty User Storage
   };
