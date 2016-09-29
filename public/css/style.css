@@ -26,3 +26,14 @@
     border: 1px solid #ccc;
     padding:10px;
 }
+
+
+.user-avatar {
+    max-width: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.user-avatar > img {
+    width:100%;
+}
