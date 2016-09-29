@@ -3,6 +3,17 @@ var User     = require('../models/user.js'); // User Model
 var Message  = require('../models/message.js'); // Message Model
 var jwt      = require('jsonwebtoken');
 var utils    = require('../utils/config.js');
+var multer   = require('multer');
+
+var upload   = multer({
+  dest: 'public/uploads/',
+  fileFilter: function (req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+      return cb("Availaible extentions : jpg, jpeg, png, gif");
+    }
+    cb(null, true);
+  }
+});
 
 var router = express.Router();
 
@@ -24,7 +35,8 @@ router.post('/new', function(request, response) {
     lastname  : request.body.lastname,
     username  : request.body.username,
     email     : request.body.email,
-    password  : utils.createHash(request.body.password)
+    password  : utils.createHash(request.body.password),
+    avatar    : null
   });
 
   newUser.save(function(err) {
@@ -115,7 +127,7 @@ router.post('/:id/follow', utils.ensureAuthorized, function(request, response) {
  * Description: Unfollow A User
  */
 router.post('/:id/unfollow', utils.ensureAuthorized, function(request, response) {
-  var currentUser = jwt.verify(request.token, 'MySecretString')._doc;
+  var currentUser = jwt.verify(request.token, utils.secret)._doc;
   if (!currentUser) return response.json({success : false, message : 'Failed to Verify token'});
   User.findOne({_id : request.params.id}, function(err, user) {
     if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
@@ -124,6 +136,26 @@ router.post('/:id/unfollow', utils.ensureAuthorized, function(request, response)
     user.save(function(err) {
       if (err) return response.json({success : false, message : 'Failed to save user ..'});
       response.json({success : true, message : 'Unfollowing!'});
+    });
+  });
+});
+
+/*
+ * @Route('/user/avatar')
+ * Description: Update user avatar
+ */
+router.post('/avatar', upload.single('file'), utils.ensureAuthorized, function(request, response) {
+  var currentUser = jwt.verify(request.token, utils.secret)._doc;
+  if (!currentUser) return response.json({success : false, message : 'Failed to Verify token'});
+  var avatarUrl = request.file.path.replace('public/', 'static/');
+
+  User.findOne({_id : currentUser._id}, function(err, user) {
+    if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
+    if (!user) return response.json({success : false, message : 'Failed to find user ' + currentUser._id});
+    user.avatar = avatarUrl;
+    user.save(function(err) {
+      if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
+      return response.json({success : true, message : 'Success !', avatarUrl : avatarUrl });
     });
   });
 });

@@ -27,6 +27,15 @@ var UserService = function($http) {
     return $http.post('/user/' + user_id + '/unfollow').then(handleSuccess, handleError('Failed to follow user'));
   };
 
+  service.setAvatar = function(avatar) {
+    var formData = new FormData();
+    formData.append('file', avatar);
+    return $http.post('/user/avatar', formData,  {
+      transformRequest: angular.identity,
+      headers: {'Content-Type': undefined}
+    }).then(handleSuccess, handleError('Failed to post avatar'));
+  };
+
   var handleSuccess = function(res) { return res.data };
   var handleError   = function(error) { return function() { return { success : false, message : error } } };
 

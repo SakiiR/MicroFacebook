@@ -1,7 +1,3 @@
-star.general-container section {
-    margin: 10%;
-}
-
 @font-face {
     font-family: whoa;
     src: url(/static/fonts/whoa.ttf);
@@ -14,4 +10,19 @@ star.general-container section {
 
 .list-name {
   color: black;
+}
+
+.profile-edit-container .avatar > .current{
+    border-radius: 50%;
+    overflow: hidden;
+    width: 200px;
+}
+
+.profile-edit-container .avatar > .current > img{
+    width: 100%;
+}
+
+.profile-edit-container .avatar {
+    border: 1px solid #ccc;
+    padding:10px;
 }

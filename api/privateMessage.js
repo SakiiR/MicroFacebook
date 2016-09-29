@@ -30,14 +30,11 @@ router.get('/all_concerned', utils.ensureAuthorized, function(request, response)
   PrivateMessage.find({$or : [{'destination' : currentUser._id}, {'source' : currentUser._id}]}, function(err, messages) {
     if (err) return response.json({success : false, messsage : 'Mongo Error : ' + err .messsage});
 
-    // Todo: Fix this
     messages = messages.map(function (item) {
       item.source.password = undefined;
       item.destination.password = undefined;
       return item;
     });
-
-    console.log(messages);
 
     return response.json({success : true, message : 'Success!', messages : messages});
   }).populate('source').populate('destination');
@@ -92,7 +89,13 @@ router.post('/new', utils.ensureAuthorized, function(request, response) {
     });
     message.save(function(err) {
       if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
-      response.json({success : true, message : 'Success!', msg : message});
+      PrivateMessage.populate(message, {path: 'source'}, function(err, msg) {
+        if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
+        PrivateMessage.populate(msg, {path: 'destination'}, function(err, lastMsg) {
+          if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
+          response.json({success : true, message : 'Success!', msg : message});
+        });
+      });
     });
   });
 });

@@ -11,7 +11,6 @@ app.controller('MessagesController', ['$scope', 'MessageService', '$timeout', 'M
   };
 
   MicroFacebookWS.forward('updated_message', $scope);
-
   $scope.$on('socket:updated_message', function() {
     MessageService.getAll().then(function(response) {
       $scope.messages = response.messages;

@@ -43,6 +43,7 @@ app.controller('MailboxController', ['$scope', 'UserService', 'PrivateMessageSer
     if (id === null) return Materialize.toast('Failed to find user "' + $scope.destination + '" !', 1000);
     PrivateMessageService.new($scope.content, $scope.destination).then(function(response) {
       if (response.success === false) return Materialize.toast(response.message, 1000);
+      $scope.privateMessages.push(response.msg);
       $scope.content = '';
       $scope.destination = '';
       return Materialize.toast(response.message, 1000);
