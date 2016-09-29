@@ -1,3 +1,0 @@
-curl -v -H 'Content-Type: application/json'  "http://localhost:1337/user/new" -d '{"username": "sakiir", "password" : "lol", "firstname" : "Erwan", "lastname" : "Dupard", "email" : "sakiirlessons@gmail.com"}'
-curl -v -H 'Content-Type: application/json'  "http://localhost:1337/user/auth" -d '{"username": "sakiir", "password" : "lol"}'
-
