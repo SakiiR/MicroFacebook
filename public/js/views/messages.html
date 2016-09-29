@@ -15,11 +15,12 @@
 
     <div class="col s12">
       <ul class="collection">
-        <span ng-show="messages.length == 0">No Messages Yet !</span>
-        <li class="collection-item row chat" ng-repeat="message in messages | orderBy:'-'">
-          <div class="username col s2"><b>{{ message.author.username }}</b></div>
-          <div class="content col s9">{{ message.content }}</div>
-          <div class="content col s1"><a ng-show="message.author._id === $parent.user._id" ng-click="deleteMessage(message._id)"><i class="material-icons">delete</i></a></div>
+        <li class="collection-item avatar grey" ng-repeat="message in messages" ng-class="{'lighten-4': message.author._id === $parent.user._id}">
+          <span class="title"><a href="/#/profile/{{ message.author._id }}">{{ message.author.username }}</a></span>
+          <p>
+            {{ message.content }}
+          </p>
+          <a href="" ng-show="message.author._id === $parent.user._id" ng-click="deleteMessage(message._id)" class="secondary-content"><i class="material-icons">delete</i></a>
         </li>
       </ul>
     </div>

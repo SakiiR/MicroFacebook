@@ -55,9 +55,9 @@ router.get('/', function(request, response){
 // WebSockets
 io.sockets.on('connection', function(socket) {
   // New Message
-  socket.on('new_message', function(message) {
-    io.emit('new_message', message);
-    });
+  socket.on('updated_message', function(message) {
+      socket.broadcast.emit('updated_message', message);
+  });
 });
 
 

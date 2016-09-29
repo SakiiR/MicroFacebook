@@ -20,7 +20,6 @@ app.controller('MailboxController', ['$scope', 'UserService', 'PrivateMessageSer
         item.created = moment.unix(item.created / 1000).startOf('hours').fromNow();
       });
     });
-
   };
 
   $scope.users = [];

@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('MessagesController', ['$scope', 'MessageService', '$timeout', 'MicroFacebookWS', function($scope, MessageService, $timeout) {
+app.controller('MessagesController', ['$scope', 'MessageService', '$timeout', 'MicroFacebookWS', function($scope, MessageService, $timeout, MicroFacebookWS) {
   $scope.messages = [];
   $scope.tmpMessage = {content : ''};
 
@@ -10,6 +10,14 @@ app.controller('MessagesController', ['$scope', 'MessageService', '$timeout', 'M
     });
   };
 
+  MicroFacebookWS.forward('updated_message', $scope);
+
+  $scope.$on('socket:updated_message', function() {
+    MessageService.getAll().then(function(response) {
+      $scope.messages = response.messages;
+    });
+  });
+
   $scope.sendMessage = function() {
     MessageService.new($scope.tmpMessage.content).then(function(response) {
       $scope.tmpMessage.content = '';
@@ -17,7 +25,7 @@ app.controller('MessagesController', ['$scope', 'MessageService', '$timeout', 'M
         Materialize.toast(response.message, 1000);
         return;
       }
-      socket.emit('new_message', response.msg);
+      socket.emit('updated_message');
     });
   };
 
@@ -30,6 +38,7 @@ app.controller('MessagesController', ['$scope', 'MessageService', '$timeout', 'M
       $scope.messages = $scope.messages.filter(function(item) {
         return (item._id !== message_id);
       });
+      socket.emit('updated_message');
     });
   };
 
