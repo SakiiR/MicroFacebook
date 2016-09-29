@@ -31,11 +31,13 @@ router.get('/all_concerned', utils.ensureAuthorized, function(request, response)
     if (err) return response.json({success : false, messsage : 'Mongo Error : ' + err .messsage});
 
     // Todo: Fix this
-    messages.forEach(function (item) {
+    messages = messages.map(function (item) {
       item.source.password = undefined;
       item.destination.password = undefined;
-      item.createdFormated = item.created.startOf('second').fromNow();
+      return item;
     });
+
+    console.log(messages);
 
     return response.json({success : true, message : 'Success!', messages : messages});
   }).populate('source').populate('destination');

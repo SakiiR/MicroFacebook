@@ -34,11 +34,14 @@
     </form>
   </ul>
 
-  <div class="private-messages">
-    <div class="row" ng-repeat="privateMessage in privateMessages">
-      <div class="col s2 date">{{ privateMessage.createdAt}}</div>
-      <div class="col s2 username">{{ privateMessage.source.username }}</div>
-      <div class="col s8 content">{{ privateMessage.content }}</div>
-    </div>
-  </div>
+  <ul class="collection">
+    <li class="collection-item avatar grey" ng-repeat="privateMessage in privateMessages" ng-class="{'lighten-4': privateMessage.source._id === $parent.user._id}">
+      <span class="title"><a href="/#/profile/{{ privateMessage.source._id }}">{{ privateMessage.source.username }}</a> to <a href="/#/profile/{{ privateMessage.destination._id }}">{{ privateMessage.destination.username }}</a></span>
+      <p>
+        {{ privateMessage.content }}
+      </p>
+      <a ng-hide="privateMessages.readed || privateMessage.source._id === $parent.user._id" class="secondary-content"><i class="material-icons">grade</i></a>
+    </li>
+  </ul>
+
 </section>

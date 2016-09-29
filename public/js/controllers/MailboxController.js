@@ -16,7 +16,11 @@ app.controller('MailboxController', ['$scope', 'UserService', 'PrivateMessageSer
     });
     PrivateMessageService.getAllConcerned().then(function (response) {
       $scope.privateMessages = response.messages;
+      angular.forEach($scope.privateMessages, function (item) { // Convert to moment
+        item.created = moment.unix(item.created / 1000).startOf('hours').fromNow();
+      });
     });
+
   };
 
   $scope.users = [];

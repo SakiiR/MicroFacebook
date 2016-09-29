@@ -9,7 +9,6 @@ app.controller('MembersController', ['$scope', 'UserService', function($scope, U
         return Materialize.toast(response.message, 1000);
       }
       $scope.users = response.users;
-      Materialize.toast(response.message, 1000);
     });
   };
 
