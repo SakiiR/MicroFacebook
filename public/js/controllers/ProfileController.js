@@ -4,11 +4,31 @@ app.controller('ProfileController', ['$scope', '$routeParams', 'UserService', '$
   $scope.tmpUser = {
     username     : '',
     email        : '',
-    firstname    : '',
-    lastname     : '',
+    first_name   : '',
+    last_name    : '',
     _id          : '',
     followers    : [],
-    messageCount : 0
+    messageCount : 0,
+    friends_list : []
+  };
+
+  $scope.init = function() {
+    var user_id = $routeParams.id;
+    if (user_id) {
+      $scope.$parent.loading = true;
+      UserService.getUser(user_id).then(function(response) {
+        $scope.$parent.loading = false;
+        $scope.tmpUser = response.user;
+        angular.forEach($scope.tmpUser.followers, function(item) {
+          if (item._id === $scope.$parent.user._id) {
+            $scope.following = true;
+          }
+        });
+        if (response.success === false) {
+          $location.path('/home');
+        }
+      });
+    }
   };
 
   $scope.follow = function(user_id) {
@@ -31,24 +51,37 @@ app.controller('ProfileController', ['$scope', '$routeParams', 'UserService', '$
     });
   };
 
-  $scope.init = function() {
-    var user_id = $routeParams.id;
-    if (user_id) {
-      $scope.$parent.loading = true;
-      UserService.getUser(user_id).then(function(response) {
-        $scope.tmpUser = response.user;
-        angular.forEach($scope.tmpUser.followers, function(item) {
-          if (item._id === $scope.$parent.user._id) {
-            $scope.following = true;
-          }
-        });
-        $scope.tmpUser.messageCount = response.messages.length;
-        $scope.$parent.loading = false;
-        if (response.success === false) {
-          $location.path('/home');
-        }
-      });
+  $scope.add_friend = function(user_id) {
+    $scope.$parent.loading = true;
+    UserService.addFriend(user_id).then(function(response) {
+      $scope.$parent.loading = false;
+      Materialize.toast(response.message, 1000);
+      if (response.success === false) return;
+      $scope.$parent.user.friends_list = response.me.friends_list;
+      $scope.$parent.saveUser();
+    });
+  };
+
+  $scope.remove_friend = function(user_id) {
+    $scope.$parent.loading = true;
+    UserService.removeFriend(user_id).then(function(response) {
+      $scope.$parent.loading = false;
+      Materialize.toast(response.message, 1000);
+      if (response.success === false) return;
+      $scope.$parent.user.friends_list = response.me.friends_list;
+      $scope.$parent.saveUser();
+    });
+  };
+
+  $scope.is_friend = function(me, friend) {
+    if (me.friends_list.indexOf(friend._id) > -1) {
+      if (friend.friends_list.indexOf(me._id) > -1) {
+        return 1;
+      } else {
+        return 0;
+      }
     }
+    return -1;
   };
 
   $scope.init();

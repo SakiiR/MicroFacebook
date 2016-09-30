@@ -30,4 +30,8 @@ app.controller('MainController', ['$scope', 'localStorageService', 'PrivateMessa
     localStorageService.remove('user');
   };
 
+  $scope.saveUser = function () {
+    localStorageService.set('user', $scope.user);
+  };
+
 }]);

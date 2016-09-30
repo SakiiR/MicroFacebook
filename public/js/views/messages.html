@@ -16,6 +16,8 @@
     <div class="col s12">
       <ul class="collection">
         <li class="collection-item avatar grey" ng-repeat="message in messages" ng-class="{'lighten-4': message.author._id === $parent.user._id}">
+          <img ng-show="message.author.avatar" src="{{ message.author.avatar }}" alt="" class="circle">
+          <img ng-show="!message.author.avatar" src="https://uxcam.com/images/join-uxcam.png" alt="" class="circle">
           <span class="title"><a href="/#/profile/{{ message.author._id }}">{{ message.author.username }}</a></span>
           <p>
             {{ message.content }}

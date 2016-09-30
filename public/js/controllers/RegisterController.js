@@ -2,8 +2,8 @@
 
 app.controller('RegisterController', ['$scope', 'UserService', '$timeout', '$location', function($scope, UserService, $timeout, $location) {
   $scope.tmpUser = {
-    firstname : '',
-    lastname  : '',
+    first_name : '',
+    last_name  : '',
     email     : '',
     username  : '',
     password  : '',
@@ -13,8 +13,8 @@ app.controller('RegisterController', ['$scope', 'UserService', '$timeout', '$loc
   $scope.submitForm = function() {
     $scope.$parent.loading = true;
     UserService.newUser(
-      $scope.tmpUser.firstname,
-      $scope.tmpUser.lastname,
+      $scope.tmpUser.first_name,
+      $scope.tmpUser.last_name,
       $scope.tmpUser.email,
       $scope.tmpUser.username,
       $scope.tmpUser.password

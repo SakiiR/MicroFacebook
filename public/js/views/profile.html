@@ -10,11 +10,11 @@
                 <img ng-show="tmpUser.avatar" src="{{ tmpUser.avatar }}"/>
                 <img ng-hide="tmpUser.avatar" src="https://uxcam.com/images/join-uxcam.png"/>
               </div>
-              <p>Username  : <b>{{ tmpUser.username }}</b></p>
-              <p>Email     : <b>{{ tmpUser.email }}</b></p>
-              <p>Firstname : <b>{{ tmpUser.firstname }}</b></p>
-              <p>Lastname  : <b>{{ tmpUser.lastname }}</b></p>
-              <p>Messages  : <b>{{ tmpUser.messageCount }}</b></p>
+              <p>Username   : <b>{{ tmpUser.username }}</b></p>
+              <p>Email      : <b>{{ tmpUser.email }}</b></p>
+              <p>First Name : <b>{{ tmpUser.first_name }}</b></p>
+              <p>Last Name  : <b>{{ tmpUser.last_name }}</b></p>
+              <p>Friends    : <b>{{ tmpUser.friends_list.length }}</b></p>
             </div>
 
             <span class="card-title">Followers</span>
@@ -32,12 +32,16 @@
               </ul>
             </div>
           </div>
-          <div class="card-action" ng-show="$parent.user._id === tmpUser._id">
-            <a href="/#/profileedit">Edit Profile</a>
-          </div>
-          <div class="card-action" ng-show="$parent.user._id !== tmpUser._id">
-            <a ng-hide="following" ng-click="follow(tmpUser._id)" href="">Follow</a>
-            <a ng-show="following" ng-click="unfollow(tmpUser._id)" href="">Unfollow</a>
+          <div class="card-action">
+            <!-- Profile Edit -->
+            <a ng-show="$parent.user._id === tmpUser._id" href="/#/profileedit">Edit Profile</a>
+            <!-- Follow Status -->
+            <a ng-show="!following && $parent.user._id !== tmpUser._id" ng-click="follow(tmpUser._id)" href="">Follow</a>
+            <a ng-show="following  && $parent.user._id !== tmpUser._id" ng-click="unfollow(tmpUser._id)" href="">Unfollow</a>
+            <!-- Friends Status -->
+            <a ng-show="$parent.user._id !== tmpUser._id && is_friend($parent.user, tmpUser) === 0" ng-click="remove_friend(tmpUser._id)" href="">Pending Friend</a>
+            <a ng-show="$parent.user._id !== tmpUser._id && is_friend($parent.user, tmpUser) === -1" ng-click="add_friend(tmpUser._id)" href="">Add Friend</a>
+            <a ng-show="$parent.user._id !== tmpUser._id && is_friend($parent.user, tmpUser) === 1" ng-click="remove_friend(tmpUser._id)" href="">Remove Friend</a>
           </div>
         </div>
       </div>

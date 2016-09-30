@@ -7,8 +7,8 @@ var UserService = function($http) {
     return $http.post('/user/auth', {username : username, password : password}).then(handleSuccess, handleError('Failed to auth user'));
   };
 
-  service.newUser = function(firstname, lastname, email, username, password) {
-    return $http.post('/user/new', {firstname : firstname, lastname : lastname, email : email, username : username, password : password}).then(handleSuccess, handleError('Failed to auth user'));
+  service.newUser = function(first_name, last_name, email, username, password) {
+    return $http.post('/user/new', {first_name : first_name, last_name : last_name, email : email, username : username, password : password}).then(handleSuccess, handleError('Failed to auth user'));
   };
 
   service.getUser = function(user_id) {
@@ -34,6 +34,14 @@ var UserService = function($http) {
       transformRequest: angular.identity,
       headers: {'Content-Type': undefined}
     }).then(handleSuccess, handleError('Failed to post avatar'));
+  };
+
+  service.addFriend = function(user_id) {
+    return $http.post('/user/add_friend', {user_id : user_id}).then(handleSuccess, handleError('Failed to add friend'));
+  };
+
+  service.removeFriend = function(user_id) {
+    return $http.post('/user/remove_friend', {user_id : user_id}).then(handleSuccess, handleError('Failed to remove friend'));
   };
 
   var handleSuccess = function(res) { return res.data };
