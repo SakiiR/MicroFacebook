@@ -46,7 +46,6 @@ app.controller('ProfileController', ['$scope', '$routeParams', 'UserService', '$
         $scope.$parent.loading = false;
         if (response.success === false) {
           $location.path('/home');
-          return;
         }
       });
     }
