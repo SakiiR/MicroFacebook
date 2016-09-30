@@ -214,10 +214,18 @@ router.post('/remove_friend', utils.ensureAuthorized, function(request, response
 router.get('/:id/album', utils.ensureAuthorized, function(request, response) {
   var currentUser = jwt.verify(request.token, utils.secret)._doc;
   if (!currentUser) return response.json({success : false, message : 'Failed to Verify token'});
-  Album.find({user : request.params.id}, function(err, albums) {
+
+  User.findOne({_id : request.params.id}, function(err, user) {
     if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
-    return response.json({success : true, message : 'Success!', albums : albums});
+    if (!user) return response.json({success : false, message : 'Failed to find user ' + request.params.id});
+    if (!utils.areFriends(user, currentUser)) return response.json({success : false, message : 'You are not friend with this user'});
+    Album.find({user : request.params.id}, function(err, albums) {
+      if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
+      return response.json({success : true, message : 'Success!', albums : albums});
+    });
   });
 });
+
+
 
 module.exports = router;
