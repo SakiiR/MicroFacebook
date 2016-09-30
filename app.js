@@ -17,6 +17,7 @@ var messageApi        = require('./api/message.js');
 var privateMessageApi = require('./api/privateMessage.js');
 var User              = require('./models/user.js');
 var utils             = require('./utils/config.js');
+var socketioJwt       = require('socketio-jwt');
 
 // Configure Express App
 app.use(morgan('dev'));
@@ -53,10 +54,20 @@ router.get('/', function(request, response){
 });
 
 // WebSockets
-io.sockets.on('connection', function(socket) {
-    socket.emit('identity', socket.handshake.identity);
-    socket.on('updated_message', function(message) {
-        socket.broadcast.emit('updated_message', message);
+// io.sockets.on('connection', function(socket) {
+//     socket.emit('identity', socket.handshake.identity);
+//     socket.on('updated_message', function(message) {
+//         socket.broadcast.emit('updated_message', message);
+//     });
+// });
+
+io.sockets.on('connection', socketioJwt.authorize({
+    secret: utils.secret,
+    timeout: 15000
+})).on('authenticated', function(socket) {
+    var user = socket.decoded_token._doc;
+    socket.on('updated_message', function() {
+        io.sockets.emit('updated_message');
     });
 });
 

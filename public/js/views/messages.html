@@ -16,9 +16,10 @@
     <div class="col s12">
       <ul class="collection">
         <li class="collection-item avatar grey lighten-4" ng-repeat="message in messages">
-          <img ng-show="message.author.avatar" src="{{ message.author.avatar }}" alt="" class="circle">
-          <img ng-show="!message.author.avatar" src="https://uxcam.com/images/join-uxcam.png" alt="" class="circle">
+          <img ng-if="message.author.avatar" ng-src="{{ message.author.avatar }}" alt="" class="circle">
+          <img ng-if="!message.author.avatar" ng-src="https://uxcam.com/images/join-uxcam.png" alt="" class="circle">
           <span class="title"><a href="/#/profile/{{ message.author._id }}">{{ message.author.username }}</a></span>
+          <span class="title">{{ message.created }}</span>
           <p>
             {{ message.content }}
           </p>
@@ -28,5 +29,4 @@
     </div>
   </div>
 <script src="/socket.io/socket.io.js"></script>
-  <script src="./static/js/ws/chat.js"></script>
 </section>

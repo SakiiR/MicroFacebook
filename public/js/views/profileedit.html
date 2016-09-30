@@ -3,8 +3,8 @@
 
   <div class="avatar">
     <div class="current">
-      <img ng-show="$parent.user.avatar" src="{{ $parent.user.avatar }}"/>
-      <img ng-hide="$parent.user.avatar" src="https://uxcam.com/images/join-uxcam.png"/>
+      <img ng-show="$parent.user.avatar" ng-src="{{ $parent.user.avatar }}"/>
+      <img ng-hide="$parent.user.avatar" ng-src="https://uxcam.com/images/join-uxcam.png"/>
     </div>
     <form ng-submit="updateAvatar()">
       <div class="file-field input-field">

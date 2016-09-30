@@ -3,6 +3,7 @@ var passport = require('passport');
 var Message  = require('../models/message.js'); // User Model
 var jwt      = require('jsonwebtoken');
 var utils    = require('../utils/config.js');
+var Moment   = require('moment');
 
 var router = express.Router();
 
@@ -27,7 +28,8 @@ router.post('/new', utils.ensureAuthorized, function(request, response) {
   if (!currentUser) return response.json({success : false, message : 'Failed to decode token'});
   var msg = new Message({
     content : request.body.content,
-    author  : currentUser._id
+    author  : currentUser._id,
+    created : new Moment()
   });
   msg.save(function(err) {
     if (err) return response.json({success : false, message : 'Failed to save message'});

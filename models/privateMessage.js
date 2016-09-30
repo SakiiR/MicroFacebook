@@ -1,7 +1,6 @@
 // Mongoose Private Message Schema
 
 var mongoose = require('mongoose');
-require('mongoose-moment')(mongoose);
 
 var PrivateMessageSchema = new mongoose.Schema({
   content     : { type : String  },

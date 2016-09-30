@@ -1,6 +1,7 @@
 // Mongoose User Schema
 
 var mongoose = require('mongoose');
+require('mongoose-moment')(mongoose);
 
 var UserSchema = new mongoose.Schema({
   first_name   : {type : String, required : true, unique : false},

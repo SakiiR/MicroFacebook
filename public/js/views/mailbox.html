@@ -36,7 +36,10 @@
 
   <ul class="collection">
     <li class="collection-item avatar grey lighten-4" ng-repeat="privateMessage in privateMessages">
+      <img ng-if="privateMessage.source.avatar" ng-src="{{ privateMessage.source.avatar }}" alt="" class="circle">
+      <img ng-if="!privateMessage.source.avatar" ng-src="https://uxcam.com/images/join-uxcam.png" alt="" class="circle">
       <span class="title"><a href="/#/profile/{{ privateMessage.source._id }}">{{ privateMessage.source.username }}</a> to <a href="/#/profile/{{ privateMessage.destination._id }}">{{ privateMessage.destination.username }}</a></span>
+      <span class="title">{{ privateMessage.created }}</span>
       <p>
         {{ privateMessage.content }}
       </p>
