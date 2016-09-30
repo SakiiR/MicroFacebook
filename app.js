@@ -15,6 +15,7 @@ var ExtractJwt        = require('passport-jwt').ExtractJwt;
 var userApi           = require('./api/user.js');
 var messageApi        = require('./api/message.js');
 var privateMessageApi = require('./api/privateMessage.js');
+var albumApi = require('./api/album.js');
 var User              = require('./models/user.js');
 var utils             = require('./utils/config.js');
 var socketioJwt       = require('socketio-jwt');
@@ -53,14 +54,6 @@ router.get('/', function(request, response){
     response.sendFile(__dirname + '/views/index.html');
 });
 
-// WebSockets
-// io.sockets.on('connection', function(socket) {
-//     socket.emit('identity', socket.handshake.identity);
-//     socket.on('updated_message', function(message) {
-//         socket.broadcast.emit('updated_message', message);
-//     });
-// });
-
 io.sockets.on('connection', socketioJwt.authorize({
     secret: utils.secret,
     timeout: 15000
@@ -77,6 +70,7 @@ app.use('/', router);
 app.use('/user', userApi);
 app.use('/message', messageApi);
 app.use('/private_message', privateMessageApi);
+app.use('/album', albumApi);
 
 server.listen(PORT, function() {
   console.log('[+] Listenning on http://localhost:' + PORT);

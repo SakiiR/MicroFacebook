@@ -7,7 +7,7 @@ var Moment          = require('moment');
 
 var router = express.Router();
 
-/*
+/**
  * @Route('/private_message/all_received')
  * Description: Get ALL Received User Private Messages
  */
@@ -20,7 +20,7 @@ router.get('/all_received', utils.ensureAuthorized, function(request, response) 
   }).populate('source').populate('destination');
 });
 
-/*
+/**
  * @Route('/private_message/all_concerned')
  * Description: Get ALL User Private Messages
  */
@@ -40,7 +40,7 @@ router.get('/all_concerned', utils.ensureAuthorized, function(request, response)
   }).populate('source').populate('destination');
 });
 
-/*
+/**
  * @Route('/private_message/all_unreaded')
  * Description: Get All Unreaded Messages By User
  */
@@ -53,7 +53,7 @@ router.get('/all_unreaded', utils.ensureAuthorized, function(request, response) 
   }).populate('source').populate('destination');
 });
 
-/*
+/**
  * @Route('/private_message/count_unreaded')
  * Description: Count All Unreaded Message By User
  */
@@ -66,7 +66,7 @@ router.get('/count_unreaded', utils.ensureAuthorized, function(request, response
   });
 });
 
-/*
+/**
  * @Route('/private_message/new')
  * Description: Send A New Private Message
  */

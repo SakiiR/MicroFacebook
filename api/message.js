@@ -7,7 +7,7 @@ var Moment   = require('moment');
 
 var router = express.Router();
 
-/*
+/**
  * @Route('/message/all')
  * Description: Get All Public Messages
  */
@@ -18,7 +18,7 @@ router.get('/all', utils.ensureAuthorized, function(request, response) {
   }).populate('author');
 });
 
-/*
+/**
  * @Route('/message/new')
  * Description: Send A New Public Message
  */
@@ -40,7 +40,7 @@ router.post('/new', utils.ensureAuthorized, function(request, response) {
   });
 });
 
-/*
+/**
  * @Route('/message/:id/delete')
  * Description: Delete A Public Message By ID
  */

@@ -1,6 +1,6 @@
 var express  = require('express');
 var User     = require('../models/user.js'); // User Model
-var Message  = require('../models/message.js'); // Message Model
+var Album    = require('../models/album.js'); // Album Model
 var jwt      = require('jsonwebtoken');
 var utils    = require('../utils/config.js');
 var multer   = require('multer');
@@ -207,5 +207,17 @@ router.post('/remove_friend', utils.ensureAuthorized, function(request, response
 });
 
 
+/**
+ * @Route('/user/:id/album')
+ * Description: Retreive User Album
+ */
+router.get('/:id/album', utils.ensureAuthorized, function(request, response) {
+  var currentUser = jwt.verify(request.token, utils.secret)._doc;
+  if (!currentUser) return response.json({success : false, message : 'Failed to Verify token'});
+  Album.find({user : request.params.id}, function(err, albums) {
+    if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
+    return response.json({success : true, message : 'Success!', albums : albums});
+  });
+});
 
 module.exports = router;

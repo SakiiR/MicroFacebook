@@ -11,7 +11,8 @@ var UserSchema = new mongoose.Schema({
   password     : {type : String, required : true, unique : false},
   followers    : [{type : mongoose.Schema.Types.ObjectId, ref : 'User'}],
   avatar       : { type : String, unique : false },
-  friends_list : [{type : mongoose.Schema.Types.ObjectId, ref : 'User'}]
+  friends_list : [{type : mongoose.Schema.Types.ObjectId, ref : 'User'}],
+  albums       : [{type : mongoose.Schema.Types.ObjectId, ref : 'Album'}]
 });
 
 module.exports = mongoose.model('User', UserSchema);
