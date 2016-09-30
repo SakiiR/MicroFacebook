@@ -35,7 +35,7 @@
   </ul>
 
   <ul class="collection">
-    <li class="collection-item avatar grey" ng-repeat="privateMessage in privateMessages" ng-class="{'lighten-4': privateMessage.source._id === $parent.user._id}">
+    <li class="collection-item avatar grey lighten-4" ng-repeat="privateMessage in privateMessages">
       <span class="title"><a href="/#/profile/{{ privateMessage.source._id }}">{{ privateMessage.source.username }}</a> to <a href="/#/profile/{{ privateMessage.destination._id }}">{{ privateMessage.destination.username }}</a></span>
       <p>
         {{ privateMessage.content }}

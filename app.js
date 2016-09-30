@@ -54,10 +54,10 @@ router.get('/', function(request, response){
 
 // WebSockets
 io.sockets.on('connection', function(socket) {
-  // New Message
-  socket.on('updated_message', function(message) {
-      socket.broadcast.emit('updated_message', message);
-  });
+    socket.emit('identity', socket.handshake.identity);
+    socket.on('updated_message', function(message) {
+        socket.broadcast.emit('updated_message', message);
+    });
 });
 
 
