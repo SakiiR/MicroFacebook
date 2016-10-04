@@ -46,4 +46,21 @@
         </div>
       </div>
     </div>
+
+  <div class="row new-album" ng-if="tmpUser._id === $parent.user._id">
+    <h3>New Album</h3>
+    <form class="col s12" ng-submit="submitAlbum()">
+      <div class="row">
+        <div class="input-field col s8">
+          <input id="album_name" type="text" class="validate" ng-model="album.name">
+          <label for="album_name">Album Name</label>
+        </div>
+        <div class="input-field col s4">
+          <button type="submit" class="btn waves-effect waves-light" type="submit" name="action">Submit
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
 </section>

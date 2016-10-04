@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('ProfileController', ['$scope', '$routeParams', 'UserService', '$location', function($scope, $routeParams, UserService, $location) {
+app.controller('ProfileController', ['$scope', '$routeParams', 'UserService', '$location', 'AlbumService', function($scope, $routeParams, UserService, $location, AlbumService) {
   $scope.tmpUser = {
     username     : '',
     email        : '',
@@ -11,6 +11,8 @@ app.controller('ProfileController', ['$scope', '$routeParams', 'UserService', '$
     messageCount : 0,
     friends_list : []
   };
+
+  $scope.album = { name : '' };
 
   $scope.init = function() {
     var user_id = $routeParams.id;
@@ -82,6 +84,15 @@ app.controller('ProfileController', ['$scope', '$routeParams', 'UserService', '$
       }
     }
     return -1;
+  };
+
+  $scope.submitAlbum = function() {
+    $scope.$parent.loading = true;
+    AlbumService.new($scope.album.name).then(function(response) {
+      $scope.$parent.loading = false;
+      Materialize.toast(response.message, 1000);
+      if (response.success === true) $scope.album.name = '';
+    });
   };
 
   $scope.init();

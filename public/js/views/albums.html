@@ -1,0 +1,23 @@
+<section class="albums-container">
+    <h4>{{ currentUser.username }}'s Albums Page</h4>
+
+    <div class="albums">
+        <div class="row" ng-repeat="album in currentUser.albums">
+            <div class="col s12 m7">
+                <div class="card">
+                    <div class="card-image">
+                        <img ng-if="album.photos[0]" ng-src="{{ album.photos[0].url }}">
+                        <img ng-if="!album.photos[0]" src="http://materializecss.com/images/sample-1.jpg">
+                        <span class="card-title">Card Title</span>
+                    </div>
+                    <div class="card-content">
+                        <p>{{ album.name }}</p>
+                    </div>
+                    <div class="card-action">
+                        <a href="/#/album/{{ album._id }}">Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

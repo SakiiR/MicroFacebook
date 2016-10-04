@@ -44,6 +44,11 @@ app.config(function($routeProvider, $httpProvider, jwtOptionsProvider) {
     templateUrl : './static/js/views/mailbox.html'
   });
 
+  $routeProvider.when('/profile/:id/albums', {
+    controller  : 'AlbumsController',
+    templateUrl : './static/js/views/albums.html'
+  });
+
   $routeProvider.otherwise({ redirectTo: "/home" });
 
   // JWT Config
