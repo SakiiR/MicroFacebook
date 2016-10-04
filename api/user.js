@@ -1,6 +1,7 @@
 var express  = require('express');
 var User     = require('../models/user.js'); // User Model
 var Album    = require('../models/album.js'); // Album Model
+var Photo    = require('../models/photo.js'); // Photo Model
 var jwt      = require('jsonwebtoken');
 var utils    = require('../utils/config.js');
 var multer   = require('multer');
@@ -153,6 +154,31 @@ router.post('/avatar', upload.single('file'), utils.ensureAuthorized, function(r
     user.save(function(err) {
       if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
       return response.json({success : true, message : 'Success !', avatarUrl : avatarUrl });
+    });
+  });
+});
+
+/**
+ * @Route('/user/album/:id/photo/new')
+ * Description: Add a new photo to a specified album
+ */
+router.post('/album/:id/photo/new', upload.single('file'), utils.ensureAuthorized, function(request, response) {
+  var currentUser = jwt.verify(request.token, utils.secret)._doc;
+  if (!currentUser) return response.json({success : false, message : 'Failed to Verify token'});
+  var albumId = request.params.id;
+  if (!request.body.name) return response.json({success : false, message : 'I Need a photo name !'});
+  Album.findOne({_id : albumId}, function(err, album) {
+    if (err) return response.json({success : false, message : 'Mongo Err : ' + err.message});
+    if (!album) return response.json({success : false, message : 'Failed to find Album by id ' + albumId});
+    var imageUrl = request.file.path.replace('public/', 'static/');
+    var photo = new Photo({
+      name  : request.body.name,
+      url   : imageUrl,
+      album : album._id
+    });
+    photo.save(function(err) {
+      if (err) return response.json({success : false, message : 'Mongo Error : ' + err.message});
+      return response.json({success : true, message : 'Success !'});
     });
   });
 });
