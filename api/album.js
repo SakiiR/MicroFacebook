@@ -8,7 +8,7 @@ var utils    = require('../utils/config.js');
 var router = express.Router();
 
 /**
- * Route('/album/new')
+ * @Route('/album/new')
  * Description: Add a new Album
  */
 router.post('/new', utils.ensureAuthorized, function(request, response) {
