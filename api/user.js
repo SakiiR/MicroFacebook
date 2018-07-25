@@ -29,7 +29,7 @@ router.post('/new', function(request, response) {
     !request.body.email     ||
     !request.body.username  ||
     !request.body.password) {
-    return response.json({success : false, message : 'Missing Fiel(s)'});
+    return response.json({success : false, message : 'Missing Field(s)'});
   }
   var newUser = new User({
     first_name : request.body.first_name,
